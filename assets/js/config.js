@@ -16,7 +16,7 @@ window.SALUD_CONFIG = {
   demo: true,
 
   auth: {
-    mode: 'demo', // 'demo' | 'supabase'
+    mode: 'supabase', // 'demo' | 'supabase'
     demoUser: {
       email: 'roberto@saludrcartes.cl',
       password: 'saludrcartes',
@@ -31,7 +31,7 @@ window.SALUD_CONFIG = {
      La guía está en docs/SEGURIDAD.md y docs/SUPABASE.md. */
   supabase: {
     url: 'https://hwgmclnoabyjckpehuvc.supabase.co',
-    anonKey: '',
+    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh3Z21jbG5vYWJ5amNrcGVodXZjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM2NDY4NDcsImV4cCI6MjEwOTIyMjg0N30.CjYf9NcgP-bchKxmz2VxuD1bnffyBRLZf6Ru5kNBKJk',
     bucket: 'documentos-clinicos'
   },
 

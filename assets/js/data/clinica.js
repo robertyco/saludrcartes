@@ -1,0 +1,868 @@
+/* ============================================================================
+   saludrcartes — Datos clínicos (DEMOSTRACIÓN)
+   ----------------------------------------------------------------------------
+   Este archivo contiene el registro completo que se carga DESPUÉS del inicio
+   de sesión. Todos los datos son de ejemplo y están marcados como tales.
+
+   Para usar tus datos reales:
+   1. Edita este archivo con tu información (o conéctalo a Supabase, ver README).
+   2. Cambia meta.demo a false.
+   3. Reemplaza los PDF de assets/docs por tus documentos reales.
+
+   IMPORTANTE: este sitio estático NO debe publicarse con datos clínicos reales
+   hasta conectar Supabase Auth + RLS. Lee docs/SEGURIDAD.md antes de desplegar.
+   ========================================================================== */
+
+window.SALUD_DATA = {
+  meta: {
+    version: '1.0.0',
+    demo: true,
+    actualizado: '2026-10-28',
+    titular: 'Roberto Carlos Cartes Jiménez',
+    sitio: 'saludrcartes',
+    lema: 'Tu historia clínica, con calidez y a mano.'
+  },
+
+  perfil: {
+    nombre: 'Roberto Carlos Cartes Jiménez',
+    preferido: 'Roberto',
+    iniciales: 'RC',
+    pronombres: 'él',
+    grupoSanguineo: 'O+',
+    previsión: 'Por confirmar',
+    centroPrincipal: 'Hospital de Referencia (ejemplo)',
+    medicoCabecera: 'Dra. Valentina Rojas',
+    correo: 'roberto@saludrcartes.cl',
+    telefono: '+56 9 0000 0001',
+    direccion: 'Por confirmar',
+    nacimiento: null,
+    notas: 'Datos de ejemplo. Reemplaza este perfil por tu información real.'
+  },
+
+  critico: {
+    grupoSanguineo: 'O+',
+    alergias: [
+      {
+        sustancia: 'Penicilina',
+        severidad: 'Moderada',
+        reaccion: 'Urticaria y picazón',
+        nota: 'Evitar penicilina y derivados. Informar en cada atención.'
+      }
+    ],
+    condiciones: [
+      'Lumbalgia mecánica en seguimiento',
+      'Síndrome de túnel carpiano derecho',
+      'Dolor de hombro derecho'
+    ],
+    medicamentos: [
+      'Paracetamol 500 mg, según necesidad',
+      'Ibuprofeno 400 mg, según necesidad',
+      'Vitamina D 1000 UI, diaria'
+    ],
+    notas: [
+      'No se registran alergias graves conocidas.',
+      'Portar la ficha impresa en cada control.',
+      'Confirmar teléfonos de contacto antes de una urgencia.'
+    ],
+    actualizado: '2026-10-28'
+  },
+
+  grupos: [
+    {
+      id: 'registro',
+      nombre: 'Registro clínico',
+      eyebrow: '01 · Lo esencial',
+      descripcion: 'Lo que necesitas saber primero: diagnósticos, tratamiento y exámenes.',
+      acento: 'verde'
+    },
+    {
+      id: 'especialidades',
+      nombre: 'Especialidades médicas',
+      eyebrow: '02 · En profundidad',
+      descripcion: 'Ocho miradas clínicas, una sola historia. Sigue la evolución de cada área.',
+      acento: 'violeta'
+    },
+    {
+      id: 'emergencia',
+      nombre: 'Emergencia',
+      eyebrow: '03 · Cuando importa',
+      descripcion: 'Información crítica y contactos a un toque, sin laberintos.',
+      acento: 'coral'
+    }
+  ],
+
+  categorias: [
+    {
+      id: 'diagnosticos',
+      slug: 'diagnosticos',
+      nombre: 'Diagnósticos',
+      grupo: 'registro',
+      icono: 'clipboard-pulse',
+      acento: 'verde',
+      orden: 1,
+      tipo: 'diagnosticos',
+      descripcion: 'Condiciones activas e históricas, con código CIE-10 y médico tratante.',
+      resumen: 'Una vista completa de tus condiciones de salud, ordenadas por estado y especialidad. Cada registro incluye fecha, código CIE-10 y el profesional que lo respalda.',
+      estado: '6 registros',
+      actualizado: '2026-10-28'
+    },
+    {
+      id: 'medicamentos',
+      slug: 'medicamentos',
+      nombre: 'Medicamentos y alergias',
+      grupo: 'registro',
+      icono: 'pill',
+      acento: 'coral',
+      orden: 2,
+      tipo: 'medicamentos',
+      afeccion_id: 'afeccion-medicamentos',
+      descripcion: 'Tratamiento vigente, horarios, alergias y nivel de severidad.',
+      resumen: 'Todo lo que tomas, cómo y cuándo. Las alergias se muestran primero, con severidad y reacción, para que cualquier profesional pueda actuar con contexto.',
+      estado: '3 activos',
+      actualizado: '2026-10-20'
+    },
+    {
+      id: 'laboratorio',
+      slug: 'laboratorio',
+      nombre: 'Laboratorio',
+      grupo: 'registro',
+      icono: 'flask',
+      acento: 'turquesa',
+      orden: 3,
+      tipo: 'laboratorio',
+      afeccion_id: 'afeccion-laboratorio',
+      descripcion: 'Resultados con fecha, rango de referencia y lectura rápida.',
+      resumen: 'Exámenes de sangre y orina con su fecha, rango de referencia y una lectura clara de lo que está dentro o fuera de rango. Los informes completos quedan descargables.',
+      estado: '9 resultados',
+      actualizado: '2026-02-02'
+    },
+    {
+      id: 'neurologia',
+      slug: 'neurologia',
+      nombre: 'Neurología',
+      grupo: 'especialidades',
+      icono: 'brain',
+      acento: 'violeta',
+      orden: 4,
+      tipo: 'especialidad',
+      afeccion_id: 'afeccion-neurologia',
+      descripcion: 'Evaluación neurológica, EEG y evolución de cefaleas.',
+      resumen: 'Seguimiento neurológico con evaluación clínica, electroencefalograma y control de cefalea tensional. La evolución se ordena por fecha para leerla de un vistazo.',
+      estado: 'Estable',
+      actualizado: '2026-05-20'
+    },
+    {
+      id: 'cardiologia',
+      slug: 'cardiologia',
+      nombre: 'Cardiología',
+      grupo: 'especialidades',
+      icono: 'heart-pulse',
+      acento: 'coral',
+      orden: 5,
+      tipo: 'especialidad',
+      afeccion_id: 'afeccion-cardiologia',
+      descripcion: 'ECG, ecocardiograma y control cardiovascular.',
+      resumen: 'Control cardiovascular preventivo con electrocardiograma, ecocardiograma y perfil lipídico. Incluye el plan de hábitos y los controles programados.',
+      estado: 'Estable',
+      actualizado: '2026-01-22'
+    },
+    {
+      id: 'fisiatria',
+      slug: 'fisiatria',
+      nombre: 'Fisiatría',
+      grupo: 'especialidades',
+      icono: 'activity',
+      acento: 'turquesa',
+      orden: 6,
+      tipo: 'especialidad',
+      afeccion_id: 'afeccion-fisiatria',
+      descripcion: 'Evaluación funcional y plan de rehabilitación física.',
+      resumen: 'Evaluación funcional del dolor lumbar y del hombro derecho, con objetivos medibles y un plan de ejercicios progresivo. La meta es recuperar movimiento sin irritar.',
+      estado: 'En seguimiento',
+      actualizado: '2026-01-12'
+    },
+    {
+      id: 'rehabilitacion',
+      slug: 'rehabilitacion',
+      nombre: 'Rehabilitación',
+      grupo: 'especialidades',
+      icono: 'dumbbell',
+      acento: 'verde',
+      orden: 7,
+      tipo: 'especialidad',
+      afeccion_id: 'afeccion-rehabilitacion',
+      descripcion: 'Sesiones, objetivos y progreso terapéutico.',
+      resumen: 'Registro de sesiones, adherencia y progreso. Cada objetivo tiene una fecha y una medida, para saber qué funciona y qué ajustar.',
+      estado: 'Progreso favorable',
+      actualizado: '2026-01-20'
+    },
+    {
+      id: 'fonoaudiologia',
+      slug: 'fonoaudiologia',
+      nombre: 'Fonoaudiología',
+      grupo: 'especialidades',
+      icono: 'message-wave',
+      acento: 'amarillo',
+      orden: 8,
+      tipo: 'especialidad',
+      afeccion_id: 'afeccion-fonoaudiologia',
+      descripcion: 'Habla, voz y deglución: evaluación y plan.',
+      resumen: 'Evaluación de habla, voz y deglución con recomendaciones de cuidado vocal. Sin hallazgos de riesgo; se controla la fatiga vocal en contextos exigidos.',
+      estado: 'En evaluación',
+      actualizado: '2026-04-15'
+    },
+    {
+      id: 'psiquiatria',
+      slug: 'psiquiatria',
+      nombre: 'Psiquiatría',
+      grupo: 'especialidades',
+      icono: 'mind',
+      acento: 'violeta',
+      orden: 9,
+      tipo: 'especialidad',
+      afeccion_id: 'afeccion-psiquiatria',
+      descripcion: 'Seguimiento, tratamiento y evolución.',
+      resumen: 'Seguimiento de salud mental con foco en sueño, ansiedad y continuidad del tratamiento. La información se trata con confidencialidad y sin juicios.',
+      estado: 'Estable',
+      actualizado: '2026-06-09'
+    },
+    {
+      id: 'traumatologia-superior',
+      slug: 'traumatologia-superior',
+      nombre: 'Traumatología superior',
+      grupo: 'especialidades',
+      icono: 'arm',
+      acento: 'coral',
+      orden: 10,
+      tipo: 'especialidad',
+      afeccion_id: 'afeccion-hombro',
+      descripcion: 'Hombro y túnel carpiano: imágenes, informes y control.',
+      resumen: 'Dos frentes en la extremidad superior: tendinopatía del supraespinosa derecho y síndrome de túnel carpiano derecho. Imágenes, informes y decisiones en una línea de tiempo.',
+      estado: 'En seguimiento',
+      actualizado: '2026-03-04'
+    },
+    {
+      id: 'traumatologia-inferior',
+      slug: 'traumatologia-inferior',
+      nombre: 'Traumatología inferior',
+      grupo: 'especialidades',
+      icono: 'leg',
+      acento: 'amarillo',
+      orden: 11,
+      tipo: 'especialidad',
+      afeccion_id: 'afeccion-lumbalgia',
+      descripcion: 'Columna lumbar: resonancia, dolor y manejo.',
+      resumen: 'Dolor lumbar mecánico en manejo conservador. La resonancia muestra cambios leves, sin compromiso radicular; el foco está en movimiento, fuerza y educación.',
+      estado: 'En seguimiento',
+      actualizado: '2026-04-10'
+    },
+    {
+      id: 'emergencia',
+      slug: 'emergencia',
+      nombre: 'Contactos de emergencia',
+      grupo: 'emergencia',
+      icono: 'phone-call',
+      acento: 'coral',
+      orden: 12,
+      tipo: 'emergencia',
+      descripcion: 'Información crítica y contactos para una urgencia.',
+      resumen: 'La página más importante cuando no hay tiempo. Grupo sanguíneo, alergias, condiciones y teléfonos con llamada directa. También disponible como ficha pública imprimible.',
+      estado: 'Siempre disponible',
+      actualizado: '2026-10-28'
+    }
+  ],
+
+  afecciones: [
+    {
+      id: 'afeccion-lumbalgia',
+      categoria_id: 'traumatologia-inferior',
+      titulo: 'Lumbalgia mecánica',
+      descripcion: 'Dolor lumbar bajo de origen mecánico, sin signos de compromiso radicular. Manejo conservador con ejercicio y educación postural.',
+      estado: 'En seguimiento',
+      tono: 'ambar',
+      tipo: 'activa',
+      fecha_diagnostico: '2024-08-14',
+      medico: 'Dr. Andrés Molina',
+      especialidad: 'Traumatología',
+      centro: 'Hospital de Referencia (ejemplo)',
+      cie10: 'M54.5',
+      actualizado: '2026-04-10',
+      resumen: 'El dolor lumbar aparece con cargas prolongadas y mejora con movimiento. La resonancia descartó compromiso radicular. El plan actual es ejercicio progresivo, analgesia condicionada y control anual.',
+      evolucion: [
+        { fecha: '2024-08-14', titulo: 'Primera consulta', hallazgo: 'Dolor lumbar bajo de tres semanas, sin signos de alarma.', accion: 'Manejo kinésico y analgesia condicionada.' },
+        { fecha: '2024-09-02', titulo: 'Evaluación funcional', hallazgo: 'Limitación leve en flexión lumbar; fuerza conservada.', accion: 'Plan de ejercicios y educación postural.' },
+        { fecha: '2025-01-20', titulo: 'Control', hallazgo: 'Dolor intermitente, mejor tolerancia a la actividad.', accion: 'Se mantiene programa; alta progresiva.' },
+        { fecha: '2025-08-21', titulo: 'Resonancia lumbar', hallazgo: 'Cambios degenerativos leves, sin compromiso radicular.', accion: 'Manejo conservador; control en seis meses.' },
+        { fecha: '2026-04-10', titulo: 'Control actual', hallazgo: 'Dolor ocasional; funcionalidad conservada.', accion: 'Continuar ejercicio; control anual.' }
+      ],
+      notas: [
+        'Moverte es parte del tratamiento: caminar y ejercicios suaves ayudan más que el reposo prolongado.',
+        'Paracetamol o ibuprofeno solo si hay dolor; respetar la dosis máxima diaria.',
+        'Consultar antes de levantar cargas mayores a 10 kg o si aparece dolor irradiado a la pierna.'
+      ],
+      relacionados: ['fisiatria', 'rehabilitacion', 'traumatologia-superior']
+    },
+    {
+      id: 'afeccion-hombro',
+      categoria_id: 'traumatologia-superior',
+      titulo: 'Tendinopatía del supraespinosa derecho',
+      descripcion: 'Dolor de hombro derecho con hallazgo ecográfico de tendinopatía leve, sin ruptura. Tratamiento conservador con kinesiología.',
+      estado: 'En seguimiento',
+      tono: 'ambar',
+      tipo: 'activa',
+      fecha_diagnostico: '2024-11-19',
+      medico: 'Dra. Camila Fuentes',
+      especialidad: 'Traumatología',
+      centro: 'Centro de Imágenes (ejemplo)',
+      cie10: 'M75.1',
+      actualizado: '2026-02-10',
+      resumen: 'Dolor en la cara lateral del hombro al elevar el brazo y al dormir sobre ese lado. La ecografía muestra tendinopatía leve sin ruptura. Se trabaja fuerza del manguito rotador y control del gesto.',
+      evolucion: [
+        { fecha: '2024-11-19', titulo: 'Ecografía de hombro', hallazgo: 'Tendinopatía leve del supraespinosa; sin ruptura.', accion: 'Kinesiología y analgesia condicionada.' },
+        { fecha: '2025-01-15', titulo: 'Control', hallazgo: 'Mejoría parcial del dolor nocturno.', accion: 'Continuar ejercicios; revisar ergonomía.' },
+        { fecha: '2025-06-02', titulo: 'Evaluación fisíatrica', hallazgo: 'Déficit leve de fuerza en rotación externa.', accion: 'Plan de fortalecimiento progresivo.' },
+        { fecha: '2026-02-10', titulo: 'Control actual', hallazgo: 'Molestia con sobrecarga; sin dolor en reposo.', accion: 'Mantener fuerza; control si reaparece el dolor intenso.' }
+      ],
+      notas: [
+        'Evitar dormir sobre el hombro derecho por períodos largos.',
+        'Fortalecer el manguito rotador antes de aumentar cargas en el gimnasio.',
+        'Consultar si aparece debilidad súbita o dolor que impide mover el brazo.'
+      ],
+      relacionados: ['fisiatria', 'rehabilitacion', 'traumatologia-inferior']
+    },
+    {
+      id: 'afeccion-tunel-carpiano',
+      categoria_id: 'traumatologia-superior',
+      titulo: 'Síndrome de túnel carpiano derecho',
+      descripcion: 'Compresión leve a moderada del nervio mediano derecho, con parestesias nocturnas. Manejo con órtesis nocturna y seguimiento.',
+      estado: 'En tratamiento',
+      tono: 'coral',
+      tipo: 'activa',
+      fecha_diagnostico: '2025-05-06',
+      medico: 'Dra. Camila Fuentes',
+      especialidad: 'Traumatología',
+      centro: 'Hospital de Referencia (ejemplo)',
+      cie10: 'G56.0',
+      actualizado: '2026-03-04',
+      resumen: 'Hormigueo nocturno en pulgar, índice y medio de la mano derecha. El estudio de conducción confirma compresión leve a moderada. La órtesis nocturna y los cambios de ergonomía han reducido los síntomas.',
+      evolucion: [
+        { fecha: '2025-05-06', titulo: 'Primera consulta', hallazgo: 'Parestesias nocturnas en territorio del mediano derecho.', accion: 'Órtesis nocturna y pausas ergonómicas.' },
+        { fecha: '2025-06-18', titulo: 'Control', hallazgo: 'Mejoría parcial de los síntomas nocturnos.', accion: 'Continuar órtesis; derivación a estudio.' },
+        { fecha: '2025-09-12', titulo: 'Estudio de conducción', hallazgo: 'Compresión leve a moderada del nervio mediano derecho.', accion: 'Se mantiene manejo conservador; evaluar infiltración si persiste.' },
+        { fecha: '2026-03-04', titulo: 'Control actual', hallazgo: 'Síntomas intermitentes; fuerza conservada.', accion: 'Mantener pausas y órtesis; control en seis meses.' }
+      ],
+      notas: [
+        'Usar la órtesis nocturna todas las noches, incluso si no hay síntomas.',
+        'Hacer pausas de 2 minutos cada 45 minutos frente al computador.',
+        'Consultar si aparece pérdida de fuerza o atrofia en la base del pulgar.'
+      ],
+      relacionados: ['fisiatria', 'rehabilitacion', 'traumatologia-inferior']
+    },
+    {
+      id: 'afeccion-neurologia',
+      categoria_id: 'neurologia',
+      titulo: 'Cefalea tensional en seguimiento',
+      descripcion: 'Cefalea episódica de características tensionales, sin signos de alarma. Evaluación neurológica y EEG sin hallazgos.',
+      estado: 'Estable',
+      tono: 'verde',
+      tipo: 'activa',
+      fecha_diagnostico: '2025-03-11',
+      medico: 'Dr. Ignacio Pérez',
+      especialidad: 'Neurología',
+      centro: 'Hospital de Referencia (ejemplo)',
+      cie10: 'G44.2',
+      actualizado: '2026-05-20',
+      resumen: 'Dolores de cabeza episódicos, habitualmente al final del día y asociados a tensión cervical. El examen neurológico y el EEG fueron normales. El manejo se centra en sueño, pausas y ejercicio.',
+      evolucion: [
+        { fecha: '2025-03-11', titulo: 'Primera evaluación', hallazgo: 'Cefalea tensional episódica; examen neurológico normal.', accion: 'Pauta de sueño, hidratación y pausas activas.' },
+        { fecha: '2025-04-02', titulo: 'Electroencefalograma', hallazgo: 'EEG normal, sin actividad epileptiforme.', accion: 'Sin tratamiento anticomicial; control clínico.' },
+        { fecha: '2025-10-07', titulo: 'Control', hallazgo: 'Menos episodios; relación con semanas de mayor carga.', accion: 'Mantener medidas y ejercicio regular.' },
+        { fecha: '2026-05-20', titulo: 'Control actual', hallazgo: 'Estable, sin cefalea diaria ni signos de alarma.', accion: 'Alta del seguimiento intensivo; control anual.' }
+      ],
+      notas: [
+        'Dormir entre 7 y 8 horas y mantener horarios regulares.',
+        'Consultar de inmediato si aparece la peor cefalea de la vida, fiebre o déficit neurológico.',
+        'Evitar el uso frecuente de analgésicos: puede empeorar la cefalea.'
+      ],
+      relacionados: ['cardiologia', 'psiquiatria', 'fisiatria']
+    },
+    {
+      id: 'afeccion-cardiologia',
+      categoria_id: 'cardiologia',
+      titulo: 'Control cardiovascular preventivo',
+      descripcion: 'Seguimiento preventivo con ECG y ecocardiograma normales. Perfil lipídico con LDL levemente elevado; plan de hábitos.',
+      estado: 'Estable',
+      tono: 'verde',
+      tipo: 'activa',
+      fecha_diagnostico: '2025-01-22',
+      medico: 'Dra. Valentina Rojas',
+      especialidad: 'Cardiología',
+      centro: 'Hospital de Referencia (ejemplo)',
+      cie10: 'Z13.6',
+      actualizado: '2026-01-22',
+      resumen: 'Corazón estructuralmente normal, con electrocardiograma y ecocardiograma sin hallazgos. El foco está en prevenir: mejorar el perfil lipídico, mantener actividad física y controlar el estrés.',
+      evolucion: [
+        { fecha: '2025-01-22', titulo: 'Evaluación inicial', hallazgo: 'ECG normal; presión arterial en rango.', accion: 'Solicitud de perfil lipídico y hábitos.' },
+        { fecha: '2025-03-05', titulo: 'Ecocardiograma', hallazgo: 'Función ventricular normal; sin valvulopatías significativas.', accion: 'Control anual.' },
+        { fecha: '2025-09-18', titulo: 'Control', hallazgo: 'Buena adherencia a caminata; peso estable.', accion: 'Refuerzo de hábitos y sueño.' },
+        { fecha: '2026-01-15', titulo: 'Laboratorio de control', hallazgo: 'LDL 128 mg/dL; resto del perfil en rango.', accion: 'Plan alimentario y repetir en seis meses.' }
+      ],
+      notas: [
+        '150 minutos de actividad física moderada por semana.',
+        'Preferir grasas saludables y reducir ultraprocesados.',
+        'Control de presión arterial en cada consulta; repetir perfil lipídico en seis meses.'
+      ],
+      relacionados: ['laboratorio', 'neurologia', 'fisiatria']
+    },
+    {
+      id: 'afeccion-fisiatria',
+      categoria_id: 'fisiatria',
+      titulo: 'Evaluación funcional musculoesquelética',
+      descripcion: 'Evaluación de dolor lumbar y hombro derecho, con objetivos funcionales y plan de ejercicio progresivo.',
+      estado: 'En seguimiento',
+      tono: 'ambar',
+      tipo: 'activa',
+      fecha_diagnostico: '2025-06-02',
+      medico: 'Dr. Sebastián Herrera',
+      especialidad: 'Fisiatría',
+      centro: 'Centro de Rehabilitación (ejemplo)',
+      cie10: 'M62.81',
+      actualizado: '2026-01-12',
+      resumen: 'La evaluación muestra buena capacidad funcional global, con déficit leve de fuerza en rotación externa del hombro y control lumbar mejorable. El plan prioriza fuerza, movilidad y educación.',
+      evolucion: [
+        { fecha: '2025-06-02', titulo: 'Evaluación funcional', hallazgo: 'Déficit leve de rotación externa derecha; control lumbar mejorable.', accion: 'Objetivos y plan de ejercicio.' },
+        { fecha: '2025-07-10', titulo: 'Inicio del programa', hallazgo: 'Tolera ejercicio de baja carga.', accion: 'Progresión quincenal.' },
+        { fecha: '2025-09-30', titulo: 'Reevaluación', hallazgo: 'Mejoría de fuerza y menor dolor con carga.', accion: 'Aumentar carga de forma gradual.' },
+        { fecha: '2026-01-12', titulo: 'Alta del plan intensivo', hallazgo: 'Objetivos funcionales cumplidos.', accion: 'Mantener rutina de mantenimiento.' }
+      ],
+      notas: [
+        'Calentar 5 minutos antes de entrenar y progresar la carga de a poco.',
+        'Registrar el dolor de 0 a 10 antes y después de cada sesión.',
+        'Suspender y consultar si el dolor supera 5/10 o dura más de 24 horas.'
+      ],
+      relacionados: ['rehabilitacion', 'traumatologia-superior', 'traumatologia-inferior']
+    },
+    {
+      id: 'afeccion-rehabilitacion',
+      categoria_id: 'rehabilitacion',
+      titulo: 'Programa de rehabilitación integral',
+      descripcion: 'Plan de 12 sesiones con objetivos de fuerza, movilidad y retorno progresivo a la actividad.',
+      estado: 'Progreso favorable',
+      tono: 'verde',
+      tipo: 'activa',
+      fecha_diagnostico: '2025-07-10',
+      medico: 'Klga. Fernanda Soto',
+      especialidad: 'Rehabilitación',
+      centro: 'Centro de Rehabilitación (ejemplo)',
+      cie10: 'Z50.9',
+      actualizado: '2026-01-20',
+      resumen: 'Doce sesiones planificadas, con adherencia del 83 %. La fuerza del hombro y la tolerancia lumbar mejoraron; el objetivo ahora es mantener la rutina y evitar recaídas.',
+      evolucion: [
+        { fecha: '2025-07-10', titulo: 'Inicio del programa', hallazgo: 'Dolor lumbar 4/10 y hombro 3/10 con carga.', accion: 'Plan de 12 sesiones y educación.' },
+        { fecha: '2025-08-14', titulo: 'Sesión 6', hallazgo: 'Mejor control motor; dolor 2/10.', accion: 'Progresión de fuerza.' },
+        { fecha: '2025-09-30', titulo: 'Sesión 10', hallazgo: 'Adherencia 83 %; objetivos parciales cumplidos.', accion: 'Ajuste de rutina domiciliaria.' },
+        { fecha: '2026-01-20', titulo: 'Cierre y mantención', hallazgo: 'Funcionalidad conservada; sin dolor en reposo.', accion: 'Rutina de mantenimiento 3 veces por semana.' }
+      ],
+      notas: [
+        'La constancia importa más que la intensidad: tres sesiones semanales son suficientes.',
+        'No suspender la rutina por completo en semanas de cansancio; reducir volume.',
+        'Reevaluar si el dolor vuelve a 5/10 o limita actividades diarias.'
+      ],
+      relacionados: ['fisiatria', 'traumatologia-superior', 'traumatologia-inferior']
+    },
+    {
+      id: 'afeccion-fonoaudiologia',
+      categoria_id: 'fonoaudiologia',
+      titulo: 'Evaluación de habla, voz y deglución',
+      descripcion: 'Evaluación fonoaudiológica sin hallazgos de riesgo. Se recomienda cuidado vocal y control de fatiga.',
+      estado: 'En evaluación',
+      tono: 'turquesa',
+      tipo: 'activa',
+      fecha_diagnostico: '2025-09-04',
+      medico: 'Flga. Constanza Vidal',
+      especialidad: 'Fonoaudiología',
+      centro: 'Centro de Especialidades (ejemplo)',
+      cie10: 'R49.9',
+      actualizado: '2026-04-15',
+      resumen: 'Habla inteligible, deglución segura y voz sin lesiones aparentes. Aparece fatiga vocal en días de mucha conversación. El plan es hidratación, pausas y técnica de proyección.',
+      evolucion: [
+        { fecha: '2025-09-04', titulo: 'Evaluación inicial', hallazgo: 'Deglución segura; fatiga vocal leve.', accion: 'Pauta de hidratación y pausas vocales.' },
+        { fecha: '2025-10-02', titulo: 'Control', hallazgo: 'Mejor recuperación después de hablar.', accion: 'Ejercicios de proyección.' },
+        { fecha: '2026-01-15', titulo: 'Seguimiento', hallazgo: 'Sin disfonía persistente.', accion: 'Mantener medidas.' },
+        { fecha: '2026-04-15', titulo: 'Alta', hallazgo: 'Objetivos cumplidos; sin signos de alarma.', accion: 'Control si reaparece la fatiga.' }
+      ],
+      notas: [
+        'Hidratarse durante el día; evitar carraspear con fuerza.',
+        'Hacer pausas vocales de 10 minutos por cada hora de conversación intensa.',
+        'Consultar si aparece ronquera persistente por más de tres semanas.'
+      ],
+      relacionados: ['neurologia', 'psiquiatria', 'cardiologia']
+    },
+    {
+      id: 'afeccion-psiquiatria',
+      categoria_id: 'psiquiatria',
+      titulo: 'Seguimiento de salud mental',
+      descripcion: 'Seguimiento periódico con foco en sueño, manejo de ansiedad y continuidad de hábitos protectores.',
+      estado: 'Estable',
+      tono: 'verde',
+      tipo: 'activa',
+      fecha_diagnostico: '2025-02-18',
+      medico: 'Dra. Paula Contreras',
+      especialidad: 'Psiquiatría',
+      centro: 'Centro de Salud Mental (ejemplo)',
+      cie10: 'F41.9',
+      actualizado: '2026-06-09',
+      resumen: 'Seguimiento estable, con mejor calidad de sueño y herramientas de manejo de ansiedad. Sin crisis en el último año. El plan es mantención de hábitos, terapia y control periódico.',
+      evolucion: [
+        { fecha: '2025-02-18', titulo: 'Primera evaluación', hallazgo: 'Ansiedad leve con impacto en el sueño.', accion: 'Psicoeducación, higiene del sueño y seguimiento.' },
+        { fecha: '2025-05-20', titulo: 'Control', hallazgo: 'Mejoría del sueño; ansiedad intermitente.', accion: 'Mantener herramientas y terapia.' },
+        { fecha: '2025-11-12', titulo: 'Control', hallazgo: 'Estable, sin crisis; buena adherencia.', accion: 'Continuar plan.' },
+        { fecha: '2026-06-09', titulo: 'Control actual', hallazgo: 'Estable; objetivos personales en curso.', accion: 'Control cada seis meses.' }
+      ],
+      notas: [
+        'Mantener horarios de sueño y actividad física regular.',
+        'Este registro es confidencial: se comparte solo con profesionales que lo necesiten.',
+        'Consultar antes de suspender cualquier tratamiento indicado.'
+      ],
+      relacionados: ['neurologia', 'fonoaudiologia', 'fisiatria']
+    },
+    {
+      id: 'afeccion-laboratorio',
+      categoria_id: 'laboratorio',
+      titulo: 'Control metabólico y perfil preventivo',
+      descripcion: 'Panel de laboratorio con hemograma, perfil lipídico, glicemia, función renal, tiroides y vitamina D.',
+      estado: 'Control preventivo',
+      tono: 'turquesa',
+      tipo: 'activa',
+      fecha_diagnostico: '2026-01-15',
+      medico: 'Dra. Valentina Rojas',
+      especialidad: 'Medicina general',
+      centro: 'Laboratorio Clínico (ejemplo)',
+      cie10: 'Z00.0',
+      actualizado: '2026-02-02',
+      resumen: 'Hemograma, glicemia, función renal y tiroides en rango. El colesterol LDL y la vitamina D aparecen fuera de rango, sin urgencia. El plan es dieta, exposición solar segura y repetir en seis meses.',
+      evolucion: [
+        { fecha: '2025-07-08', titulo: 'Laboratorio previo', hallazgo: 'LDL 118 mg/dL; vitamina D 28 ng/mL.', accion: 'Refuerzo de hábitos.' },
+        { fecha: '2026-01-15', titulo: 'Laboratorio actual', hallazgo: 'LDL 128 mg/dL; vitamina D 24 ng/mL; resto en rango.', accion: 'Plan alimentario y suplemento de vitamina D.' },
+        { fecha: '2026-02-02', titulo: 'Revisión con médico', hallazgo: 'Sin signos de alarma; riesgo cardiovascular bajo.', accion: 'Repetir perfil en seis meses.' }
+      ],
+      notas: [
+        'LDL levemente elevado: priorizar fibra, pescado y grasas saludables.',
+        'Vitamina D baja: suplemento indicado y exposición solar breve y segura.',
+        'No interpretar un resultado aislado: siempre volver al informe completo.'
+      ],
+      relacionados: ['cardiologia', 'fisiatria', 'medicamentos']
+    },
+    {
+      id: 'afeccion-medicamentos',
+      categoria_id: 'medicamentos',
+      titulo: 'Tratamiento vigente y alergias',
+      descripcion: 'Revisión de medicamentos activos, indicaciones, horarios y alergias registradas.',
+      estado: 'Vigente',
+      tono: 'verde',
+      tipo: 'activa',
+      fecha_diagnostico: '2026-10-20',
+      medico: 'Dra. Valentina Rojas',
+      especialidad: 'Medicina general',
+      centro: 'Hospital de Referencia (ejemplo)',
+      cie10: null,
+      actualizado: '2026-10-20',
+      resumen: 'Tres medicamentos activos, todos con indicación precisa y dosis máxima definida. La alergia a penicilina es la única alergia medicamentosa registrada y debe declararse en cada atención.',
+      evolucion: [
+        { fecha: '2025-11-02', titulo: 'Inicio de vitamina D', hallazgo: 'Vitamina D 24 ng/mL.', accion: '1000 UI diarias por seis meses.' },
+        { fecha: '2026-09-15', titulo: 'Revisión de tratamiento', hallazgo: 'Sin necesidad de omeprazol diario.', accion: 'Suspender omeprazol; manejo según necesidad.' },
+        { fecha: '2026-10-20', titulo: 'Revisión actual', hallazgo: 'Tratamiento vigente y buena tolerancia.', accion: 'Mantener indicaciones; control en seis meses.' }
+      ],
+      notas: [
+        'Informar la alergia a penicilina antes de cualquier antibiótico.',
+        'No usar ibuprofeno por más de tres días seguidos sin control médico.',
+        'Mantener los medicamentos fuera del alcance de niños y revisar vencimientos.'
+      ],
+      relacionados: ['laboratorio', 'diagnosticos', 'emergencia']
+    },
+    {
+      id: 'afeccion-rinitis',
+      categoria_id: 'diagnosticos',
+      titulo: 'Rinitis alérgica estacional',
+      descripcion: 'Cuadro histórico de congestión nasal y estornudos en primavera. Manejado con medidas ambientales y antihistamínicos según necesidad.',
+      estado: 'Resuelta',
+      tono: 'neutral',
+      tipo: 'historica',
+      fecha_diagnostico: '2022-10-04',
+      medico: 'Dra. Valentina Rojas',
+      especialidad: 'Medicina general',
+      centro: 'CESFAM (ejemplo)',
+      cie10: 'J30.2',
+      actualizado: '2024-11-12',
+      resumen: 'Cuadro estacional sin complicaciones. Se mantiene solo con medidas ambientales; sin tratamiento diario.',
+      evolucion: [
+        { fecha: '2022-10-04', titulo: 'Diagnóstico', hallazgo: 'Rinorrea y estornudos estacionales.', accion: 'Antihistamínico según necesidad.' },
+        { fecha: '2024-11-12', titulo: 'Cierre', hallazgo: 'Sin síntomas persistentes.', accion: 'Manejo ambiental.' }
+      ],
+      notas: ['Evitar exposición prolongada al polvo y al polen en primavera.'],
+      relacionados: ['diagnosticos', 'medicamentos']
+    },
+    {
+      id: 'afeccion-gastritis',
+      categoria_id: 'diagnosticos',
+      titulo: 'Gastritis funcional',
+      descripcion: 'Cuadro histórico de dolor epigástrico leve asociado a ayuno prolongado. Sin signos de alarma; resuelto con cambios de hábitos.',
+      estado: 'Resuelta',
+      tono: 'neutral',
+      tipo: 'historica',
+      fecha_diagnostico: '2023-04-18',
+      medico: 'Dr. Felipe Aravena',
+      especialidad: 'Medicina general',
+      centro: 'CESFAM (ejemplo)',
+      cie10: 'K29.7',
+      actualizado: '2024-06-05',
+      resumen: 'Molestia epigástrica leve, sin pérdida de peso ni sangrado. Mejoró con comidas regulares y suspensión de cafeína en ayunas.',
+      evolucion: [
+        { fecha: '2023-04-18', titulo: 'Consulta', hallazgo: 'Dolor epigástrico leve en ayunas.', accion: 'Cambios de hábitos; omeprazol por 14 días.' },
+        { fecha: '2024-06-05', titulo: 'Control', hallazgo: 'Sin dolor recurrente.', accion: 'Alta.' }
+      ],
+      notas: ['Evitar ayunos prolongados y cafeína en ayunas.'],
+      relacionados: ['diagnosticos', 'medicamentos']
+    },
+    {
+      id: 'afeccion-hipercolesterolemia',
+      categoria_id: 'diagnosticos',
+      titulo: 'Hipercolesterolemia leve',
+      descripcion: 'LDL levemente elevado en dos controles consecutivos. Sin tratamiento farmacológico; manejo con alimentación y actividad física.',
+      estado: 'En seguimiento',
+      tono: 'ambar',
+      tipo: 'activa',
+      fecha_diagnostico: '2025-07-08',
+      medico: 'Dra. Valentina Rojas',
+      especialidad: 'Medicina general',
+      centro: 'Hospital de Referencia (ejemplo)',
+      cie10: 'E78.0',
+      actualizado: '2026-01-15',
+      resumen: 'LDL de 118 mg/dL en 2025 y 128 mg/dL en 2026. El riesgo cardiovascular es bajo. La estrategia es nutricional, con actividad física y control en seis meses.',
+      evolucion: [
+        { fecha: '2025-07-08', titulo: 'Primer registro', hallazgo: 'LDL 118 mg/dL.', accion: 'Refuerzo de hábitos.' },
+        { fecha: '2026-01-15', titulo: 'Control', hallazgo: 'LDL 128 mg/dL; resto del perfil en rango.', accion: 'Plan alimentario; repetir en seis meses.' }
+      ],
+      notas: [
+        'Aumentar fibra soluble y pescado; reducir frituras y ultraprocesados.',
+        'Mantener 150 minutos de actividad física semanal.',
+        'No requiere estatina por ahora; decisión revisada en cada control.'
+      ],
+      relacionados: ['cardiologia', 'laboratorio', 'medicamentos']
+    }
+  ],
+
+  documentos: [
+    { id: 'doc-diag-informe', afeccion_id: 'afeccion-lumbalgia', categoria_id: 'traumatologia-inferior', nombre: 'Informe médico inicial — dolor lumbar', archivo: 'assets/docs/traumatologia-inferior-2024-08-14-informe-medico.pdf', tipo_archivo: 'PDF', fecha: '2024-08-14', tamano: '1 pág.', descripcion: 'Evaluación inicial, diagnóstico y plan de manejo.' },
+    { id: 'doc-diag-tunel', afeccion_id: 'afeccion-tunel-carpiano', categoria_id: 'traumatologia-superior', nombre: 'Informe de evaluación — túnel carpiano', archivo: 'assets/docs/traumatologia-superior-2025-05-06-informe-carpiano.pdf', tipo_archivo: 'PDF', fecha: '2025-05-06', tamano: '1 pág.', descripcion: 'Síntomas, examen físico y plan inicial.' },
+    { id: 'doc-med-receta', afeccion_id: 'afeccion-medicamentos', categoria_id: 'medicamentos', nombre: 'Receta vigente — tratamiento actual', archivo: 'assets/docs/medicamentos-2026-10-20-receta-vigente.pdf', tipo_archivo: 'PDF', fecha: '2026-10-20', tamano: '1 pág.', descripcion: 'Medicamentos activos, dosis y duración.' },
+    { id: 'doc-lab-lipidico', afeccion_id: 'afeccion-laboratorio', categoria_id: 'laboratorio', nombre: 'Perfil lipídico — enero 2026', archivo: 'assets/docs/laboratorio-2026-01-15-perfil-lipidico.pdf', tipo_archivo: 'PDF', fecha: '2026-01-15', tamano: '1 pág.', descripcion: 'Colesterol total, LDL, HDL y triglicéridos.' },
+    { id: 'doc-lab-hemograma', afeccion_id: 'afeccion-laboratorio', categoria_id: 'laboratorio', nombre: 'Hemograma completo — enero 2026', archivo: 'assets/docs/laboratorio-2026-01-15-hemograma.pdf', tipo_archivo: 'PDF', fecha: '2026-01-15', tamano: '1 pág.', descripcion: 'Serie roja, blanca y plaquetas.' },
+    { id: 'doc-neuro-informe', afeccion_id: 'afeccion-neurologia', categoria_id: 'neurologia', nombre: 'Informe neurológico — marzo 2025', archivo: 'assets/docs/neurologia-2025-03-11-informe-neurologico.pdf', tipo_archivo: 'PDF', fecha: '2025-03-11', tamano: '1 pág.', descripcion: 'Evaluación clínica y plan de seguimiento.' },
+    { id: 'doc-neuro-eeg', afeccion_id: 'afeccion-neurologia', categoria_id: 'neurologia', nombre: 'Electroencefalograma — abril 2025', archivo: 'assets/docs/neurologia-2025-04-02-eeg.pdf', tipo_archivo: 'PDF', fecha: '2025-04-02', tamano: '1 pág.', descripcion: 'Registro EEG sin hallazgos epileptiformes.' },
+    { id: 'doc-cardio-ecg', afeccion_id: 'afeccion-cardiologia', categoria_id: 'cardiologia', nombre: 'Electrocardiograma — enero 2025', archivo: 'assets/docs/cardiologia-2025-01-22-ecg.pdf', tipo_archivo: 'PDF', fecha: '2025-01-22', tamano: '1 pág.', descripcion: 'Ritmo sinusal, sin alteraciones agudas.' },
+    { id: 'doc-cardio-eco', afeccion_id: 'afeccion-cardiologia', categoria_id: 'cardiologia', nombre: 'Ecocardiograma — marzo 2025', archivo: 'assets/docs/cardiologia-2025-03-05-ecocardiograma.pdf', tipo_archivo: 'PDF', fecha: '2025-03-05', tamano: '1 pág.', descripcion: 'Función ventricular y válvulas.' },
+    { id: 'doc-fisiatria-eval', afeccion_id: 'afeccion-fisiatria', categoria_id: 'fisiatria', nombre: 'Evaluación funcional — junio 2025', archivo: 'assets/docs/fisiatria-2025-06-02-evaluacion-funcional.pdf', tipo_archivo: 'PDF', fecha: '2025-06-02', tamano: '1 pág.', descripcion: 'Fuerza, movilidad y objetivos.' },
+    { id: 'doc-fisiatria-plan', afeccion_id: 'afeccion-fisiatria', categoria_id: 'fisiatria', nombre: 'Plan de rehabilitación física', archivo: 'assets/docs/fisiatria-2025-06-02-plan-rehabilitacion.pdf', tipo_archivo: 'PDF', fecha: '2025-06-02', tamano: '1 pág.', descripcion: 'Ejercicios, progresión y precauciones.' },
+    { id: 'doc-rehab-evolucion', afeccion_id: 'afeccion-rehabilitacion', categoria_id: 'rehabilitacion', nombre: 'Informe de evolución — septiembre 2025', archivo: 'assets/docs/rehabilitacion-2025-09-30-informe-evolucion.pdf', tipo_archivo: 'PDF', fecha: '2025-09-30', tamano: '1 pág.', descripcion: 'Adherencia, progreso y ajustes.' },
+    { id: 'doc-rehab-plan', afeccion_id: 'afeccion-rehabilitacion', categoria_id: 'rehabilitacion', nombre: 'Plan terapéutico — 12 sesiones', archivo: 'assets/docs/rehabilitacion-2025-07-10-plan-terapeutico.pdf', tipo_archivo: 'PDF', fecha: '2025-07-10', tamano: '1 pág.', descripcion: 'Objetivos y cronograma.' },
+    { id: 'doc-fono-eval', afeccion_id: 'afeccion-fonoaudiologia', categoria_id: 'fonoaudiologia', nombre: 'Evaluación de habla y deglución', archivo: 'assets/docs/fonoaudiologia-2025-09-04-evaluacion-habla.pdf', tipo_archivo: 'PDF', fecha: '2025-09-04', tamano: '1 pág.', descripcion: 'Hallazgos y recomendaciones vocales.' },
+    { id: 'doc-psiquiatria', afeccion_id: 'afeccion-psiquiatria', categoria_id: 'psiquiatria', nombre: 'Informe de seguimiento — febrero 2025', archivo: 'assets/docs/psiquiatria-2025-02-18-informe-seguimiento.pdf', tipo_archivo: 'PDF', fecha: '2025-02-18', tamano: '1 pág.', descripcion: 'Evaluación inicial y plan de cuidado.' },
+    { id: 'doc-trauma-eco', afeccion_id: 'afeccion-hombro', categoria_id: 'traumatologia-superior', nombre: 'Ecografía de hombro derecho', archivo: 'assets/docs/traumatologia-superior-2024-11-19-eco-hombro.pdf', tipo_archivo: 'PDF', fecha: '2024-11-19', tamano: '1 pág.', descripcion: 'Tendinopatía del supraespinosa sin ruptura.' },
+    { id: 'doc-trauma-lumbar', afeccion_id: 'afeccion-lumbalgia', categoria_id: 'traumatologia-inferior', nombre: 'Informe traumatológico — columna lumbar', archivo: 'assets/docs/traumatologia-inferior-2024-08-14-informe-lumbar.pdf', tipo_archivo: 'PDF', fecha: '2024-08-14', tamano: '1 pág.', descripcion: 'Examen físico y plan conservador.' },
+    { id: 'doc-trauma-rm', afeccion_id: 'afeccion-lumbalgia', categoria_id: 'traumatologia-inferior', nombre: 'Resonancia magnética lumbar', archivo: 'assets/docs/traumatologia-inferior-2025-08-21-resonancia-lumbar.pdf', tipo_archivo: 'PDF', fecha: '2025-08-21', tamano: '1 pág.', descripcion: 'Cambios degenerativos leves, sin compromiso radicular.' }
+  ],
+
+  medicamentos: [
+    {
+      id: 'med-paracetamol',
+      nombre: 'Paracetamol',
+      dosis: '500 mg',
+      frecuencia: 'Cada 8 horas si hay dolor',
+      via: 'Oral',
+      horario: 'Según necesidad',
+      inicio: '2024-08-14',
+      fin: null,
+      activo: true,
+      indicacion: 'Dolor lumbar y musculoesquelético',
+      maximo: 'Máximo 3 g al día',
+      notas: 'No combinar con otro producto que contenga paracetamol.'
+    },
+    {
+      id: 'med-ibuprofeno',
+      nombre: 'Ibuprofeno',
+      dosis: '400 mg',
+      frecuencia: 'Cada 8 horas con alimentos',
+      via: 'Oral',
+      horario: 'Según necesidad',
+      inicio: '2025-05-06',
+      fin: null,
+      activo: true,
+      indicacion: 'Dolor inflamatorio del hombro o la mano',
+      maximo: 'Máximo 3 días seguidos sin control',
+      notas: 'Tomar con alimentos. Evitar si hay dolor gástrico.'
+    },
+    {
+      id: 'med-vitamina-d',
+      nombre: 'Vitamina D',
+      dosis: '1000 UI',
+      frecuencia: 'Una vez al día',
+      via: 'Oral',
+      horario: 'Con el desayuno',
+      inicio: '2025-11-02',
+      fin: null,
+      activo: true,
+      indicacion: 'Vitamina D baja (24 ng/mL)',
+      maximo: 'Según indicación médica',
+      notas: 'Reevaluar niveles en el próximo control de laboratorio.'
+    },
+    {
+      id: 'med-omeprazol',
+      nombre: 'Omeprazol',
+      dosis: '20 mg',
+      frecuencia: 'Una vez al día en ayunas',
+      via: 'Oral',
+      horario: 'Mañana',
+      inicio: '2023-04-18',
+      fin: '2026-09-15',
+      activo: false,
+      indicacion: 'Gastritis funcional (histórico)',
+      maximo: '14 días',
+      notas: 'Suspendido por buena evolución; usar solo si hay síntomas.'
+    }
+  ],
+
+  alergias: [
+    {
+      id: 'alergia-penicilina',
+      sustancia: 'Penicilina',
+      severidad: 'Moderada',
+      tono: 'coral',
+      reaccion: 'Urticaria y picazón',
+      fecha_registro: '2019-06-12',
+      notas: 'Evitar penicilina y derivados. Informar en cada atención médica.'
+    },
+    {
+      id: 'alergia-polen',
+      sustancia: 'Polen',
+      severidad: 'Leve',
+      tono: 'ambar',
+      reaccion: 'Rinorrea y estornudos estacionales',
+      fecha_registro: '2022-10-04',
+      notas: 'Manejo ambiental; antihistamínico solo si hay síntomas.'
+    }
+  ],
+
+  contactos: [
+    {
+      id: 'contacto-principal',
+      nombre: 'Contacto familiar principal',
+      relacion: 'Familiar directo',
+      telefono: '+56 9 0000 0001',
+      tipo_contacto: 'Familiar',
+      principal: true,
+      orden: 1,
+      nota: 'Llamar primero en una urgencia no médica.',
+      icono: 'users'
+    },
+    {
+      id: 'contacto-medico',
+      nombre: 'Dra. Valentina Rojas',
+      relacion: 'Médica de cabecera',
+      telefono: '+56 9 0000 0002',
+      tipo_contacto: 'Médico tratante',
+      principal: false,
+      orden: 2,
+      nota: 'Consultas de seguimiento y coordinación.',
+      icono: 'stethoscope'
+    },
+    {
+      id: 'contacto-centro',
+      nombre: 'Hospital de Referencia (ejemplo)',
+      relacion: 'Centro de salud',
+      telefono: '+56 2 0000 0000',
+      tipo_contacto: 'Centro asistencial',
+      principal: false,
+      orden: 3,
+      nota: 'Urgencias y hospitalizaciones.',
+      icono: 'hospital'
+    },
+    {
+      id: 'contacto-samu',
+      nombre: 'SAMU',
+      relacion: 'Ambulancia y urgencias',
+      telefono: '131',
+      tipo_contacto: 'Emergencia pública',
+      principal: false,
+      orden: 4,
+      nota: 'Emergencia médica con riesgo vital.',
+      icono: 'ambulance'
+    },
+    {
+      id: 'contacto-carabineros',
+      nombre: 'Carabineros de Chile',
+      relacion: 'Seguridad y emergencias',
+      telefono: '133',
+      tipo_contacto: 'Emergencia pública',
+      principal: false,
+      orden: 5,
+      nota: 'Emergencias policiales.',
+      icono: 'shield'
+    },
+    {
+      id: 'contacto-bomberos',
+      nombre: 'Bomberos',
+      relacion: 'Incendios y rescate',
+      telefono: '132',
+      tipo_contacto: 'Emergencia pública',
+      principal: false,
+      orden: 6,
+      nota: 'Incendios, rescate y emergencias con fuego.',
+      icono: 'flame'
+    },
+    {
+      id: 'contacto-salud-responde',
+      nombre: 'Salud Responde',
+      relacion: 'Orientación en salud',
+      telefono: '600 360 7777',
+      tipo_contacto: 'Orientación',
+      principal: false,
+      orden: 7,
+      nota: 'Consultas de salud no urgentes, 24/7.',
+      icono: 'phone'
+    }
+  ],
+
+  laboratorio: [
+    { id: 'lab-hb', panel: 'Hemograma', examen: 'Hemoglobina', resultado: '14,2', unidad: 'g/dL', referencia: '13,0 – 17,0', estado: 'normal', fecha: '2026-01-15' },
+    { id: 'lab-leuco', panel: 'Hemograma', examen: 'Leucocitos', resultado: '6,8', unidad: 'x10³/µL', referencia: '4,0 – 11,0', estado: 'normal', fecha: '2026-01-15' },
+    { id: 'lab-plaq', panel: 'Hemograma', examen: 'Plaquetas', resultado: '245', unidad: 'x10³/µL', referencia: '150 – 400', estado: 'normal', fecha: '2026-01-15' },
+    { id: 'lab-col', panel: 'Perfil lipídico', examen: 'Colesterol total', resultado: '205', unidad: 'mg/dL', referencia: '< 200', estado: 'alto', fecha: '2026-01-15' },
+    { id: 'lab-ldl', panel: 'Perfil lipídico', examen: 'LDL', resultado: '128', unidad: 'mg/dL', referencia: '< 100', estado: 'alto', fecha: '2026-01-15' },
+    { id: 'lab-hdl', panel: 'Perfil lipídico', examen: 'HDL', resultado: '52', unidad: 'mg/dL', referencia: '> 40', estado: 'normal', fecha: '2026-01-15' },
+    { id: 'lab-tri', panel: 'Perfil lipídico', examen: 'Triglicéridos', resultado: '145', unidad: 'mg/dL', referencia: '< 150', estado: 'normal', fecha: '2026-01-15' },
+    { id: 'lab-glic', panel: 'Metabolismo y función', examen: 'Glicemia en ayunas', resultado: '92', unidad: 'mg/dL', referencia: '70 – 100', estado: 'normal', fecha: '2026-01-15' },
+    { id: 'lab-hba1c', panel: 'Metabolismo y función', examen: 'HbA1c', resultado: '5,4', unidad: '%', referencia: '< 5,7', estado: 'normal', fecha: '2026-01-15' },
+    { id: 'lab-crea', panel: 'Metabolismo y función', examen: 'Creatinina', resultado: '0,95', unidad: 'mg/dL', referencia: '0,7 – 1,3', estado: 'normal', fecha: '2026-01-15' },
+    { id: 'lab-tsh', panel: 'Metabolismo y función', examen: 'TSH', resultado: '2,1', unidad: 'µUI/mL', referencia: '0,4 – 4,0', estado: 'normal', fecha: '2026-01-15' },
+    { id: 'lab-vitd', panel: 'Metabolismo y función', examen: 'Vitamina D', resultado: '24', unidad: 'ng/mL', referencia: '30 – 100', estado: 'bajo', fecha: '2026-01-15' }
+  ],
+
+  principios: [
+    {
+      icono: 'shield-heart',
+      titulo: 'Privado por diseño',
+      texto: 'Un registro personal, sin buscadores ni terceros. La información crítica tiene un acceso aparte y el historial completo queda bajo inicio de sesión.'
+    },
+    {
+      icono: 'compass',
+      titulo: 'Claro en segundos',
+      texto: 'Cada página responde tres preguntas: qué pasa, qué se está haciendo y qué viene después. Sin jerga innecesaria ni tablas interminables.'
+    },
+    {
+      icono: 'link',
+      titulo: 'Listo para compartir',
+      texto: 'Documentos descargables y una ficha de emergencia imprimible para entregar al personal de salud cuando no hay tiempo para explicar.'
+    }
+  ]
+};

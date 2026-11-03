@@ -1,0 +1,6 @@
+# saludrcartes — registro clínico privado
+# No indexar ninguna ruta. La ficha de emergencia tampoco debe aparecer en buscadores.
+User-agent: *
+Disallow: /
+
+# Sin sitemap público.

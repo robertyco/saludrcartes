@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+  <meta name="referrer" content="no-referrer">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#FFF8F0">
+  <meta name="description" content="Registro clínico personal de Roberto Carlos Cartes Jiménez. Información de salud privada, ordenada y siempre a mano.">
+  <title>saludrcartes · Registro clínico personal</title>
+
+  <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+  <link rel="manifest" href="manifest.webmanifest">
+
+  <link rel="preload" href="assets/fonts/quicksand-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+  <link rel="stylesheet" href="assets/css/fonts.css">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/pages.css">
+  <link rel="stylesheet" href="assets/css/overlays.css">
+  <link rel="stylesheet" href="assets/css/responsive.css">
+  <link rel="stylesheet" href="assets/css/print.css" media="print">
+</head>
+<body>
+  <a class="skip-link" href="#contenido">Saltar al contenido principal</a>
+  <noscript>
+    <div style="padding:1.2rem;background:#FFF6DE;color:#4A3600;font-family:system-ui;font-size:.9rem;text-align:center">
+      Este sitio necesita JavaScript para proteger y mostrar tu registro clínico.
+      Si necesitas la ficha de emergencia, abre <a href="emergencia.html" style="text-decoration:underline">emergencia.html</a>.
+    </div>
+  </noscript>
+
+  <!-- ============================ LOGIN ============================ -->
+  <section id="vista-login" class="login" aria-label="Acceso al registro clínico">
+    <div class="login__brand on-dark">
+      <div>
+        <a class="brand" href="index.html">
+          <span class="brand__mark" data-brand-mark="44" aria-hidden="true"></span>
+          <span class="brand__text">
+            <span class="brand__name">salud<span>rcartes</span></span>
+            <span class="brand__tag">Registro clínico personal</span>
+          </span>
+        </a>
+      </div>
+
+      <div>
+        <p class="eyebrow eyebrow--cream">Un lugar para tu historia</p>
+        <h1 class="login__headline">La salud se cuida mejor cuando la información está <em>cerca</em>.</h1>
+        <p class="login__sub">Diagnósticos, tratamiento, exámenes y documentos en una sola historia. Clara para ti, útil para tu familia y lista para cualquier profesional que la necesite.</p>
+
+        <ul class="login__features">
+          <li class="login__feature">
+            <span class="login__feature-icon" data-icon="shield-heart" data-icon-size="18" aria-hidden="true"></span>
+            <span><strong>Privado por defecto</strong>Sin buscadores, publicidad ni terceros.</span>
+          </li>
+          <li class="login__feature">
+            <span class="login__feature-icon" data-icon="phone-call" data-icon-size="18" aria-hidden="true"></span>
+            <span><strong>Emergencia a un toque</strong>Información crítica y teléfonos directos.</span>
+          </li>
+          <li class="login__feature">
+            <span class="login__feature-icon" data-icon="file-heart" data-icon-size="18" aria-hidden="true"></span>
+            <span><strong>Respaldo documental</strong>Informes y recetas descargables en PDF.</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="login__foot">
+        <span data-icon="lock" data-icon-size="15" aria-hidden="true"></span>
+        <span>Información de salud tratada como confidencial. Acceso solo con credenciales.</span>
+      </div>
+    </div>
+
+    <div class="login__panel">
+      <div class="login-card">
+        <div class="login-card__icon" data-icon="shield-heart" data-icon-size="28" aria-hidden="true"></div>
+        <p class="eyebrow">Acceso privado</p>
+        <h1>Bienvenido de vuelta</h1>
+        <p class="login-card__intro">Ingresa para ver el historial completo, los documentos y la evolución de cada especialidad.</p>
+
+        <form id="login-form" class="login-form" novalidate>
+          <div class="field" id="field-email">
+            <label for="login-email">Correo electrónico</label>
+            <input class="input" id="login-email" name="email" type="email" inputmode="email" autocomplete="username" spellcheck="false" value="roberto@saludrcartes.cl" required>
+          </div>
+
+          <div class="field" id="field-password">
+            <label for="login-password">Clave</label>
+            <div class="input-wrap">
+              <input class="input" id="login-password" name="password" type="password" autocomplete="current-password" required>
+              <button class="input-wrap__btn" type="button" id="toggle-password" aria-label="Mostrar clave" aria-pressed="false" data-icon="eye" data-icon-size="20"></button>
+            </div>
+          </div>
+
+          <p class="login-error" id="login-error" role="alert" hidden>
+            <span data-icon="alert-circle" data-icon-size="18" aria-hidden="true"></span>
+            <span id="login-error-text">Revisa tu correo y tu clave.</span>
+          </p>
+
+          <div class="login-form__row">
+            <label class="checkbox">
+              <input type="checkbox" id="login-remember" name="remember">
+              <span>Recordarme en este dispositivo</span>
+            </label>
+            <a class="text-link" href="#recuperar" id="forgot-link" style="font-size:.8rem">¿Olvidaste tu clave?</a>
+          </div>
+
+          <button class="btn btn--primary btn--lg btn--block login-form__submit" type="submit" id="login-submit">
+            <span id="login-submit-label">Entrar a mi registro</span>
+            <span data-icon="arrow-right" data-icon-size="19" aria-hidden="true"></span>
+          </button>
+        </form>
+
+        <div class="login-demo" id="login-demo">
+          <strong><span data-icon="sparkle" data-icon-size="15" aria-hidden="true"></span> Modo demostración</strong>
+          <p style="margin:.25rem 0 0">Credenciales de ejemplo: <code>roberto@saludrcartes.cl</code> · <code>saludrcartes</code></p>
+          <button class="login-demo__btn" type="button" id="demo-fill">Usar credenciales de demostración</button>
+        </div>
+
+        <div class="login-alt">
+          <span>¿Solo necesitas la ficha de emergencia?</span>
+          <a href="emergencia.html">Abrir ficha pública <span data-icon="arrow-up-right" data-icon-size="14" aria-hidden="true"></span></a>
+        </div>
+
+        <p class="login-security">
+          <span data-icon="lock" data-icon-size="14" aria-hidden="true"></span>
+          <span>Este sitio no aparece en buscadores. En producción, el acceso se protege con Supabase Auth y RLS.</span>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================= APP ============================= -->
+  <div id="vista-app" hidden>
+    <div class="demo-banner" id="demo-banner" role="status">
+      <span data-icon="info" data-icon-size="16" aria-hidden="true"></span>
+      <span><strong>Modo demostración.</strong> El contenido clínico es de ejemplo y no debe usarse en una urgencia real.</span>
+      <span class="demo-banner__spacer"></span>
+      <a href="#/acerca">Cómo funciona esta demo</a>
+      <button class="demo-banner__close" type="button" id="demo-banner-close" aria-label="Cerrar aviso de demostración" data-icon="close" data-icon-size="16"></button>
+    </div>
+
+    <header class="site-header" id="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="#/" aria-label="saludrcartes">
+          <span class="brand__mark" data-brand-mark="38" aria-hidden="true"></span>
+          <span class="brand__text">
+            <span class="brand__name">salud<span>rcartes</span></span>
+            <span class="brand__tag">Registro clínico personal</span>
+          </span>
+        </a>
+        <span class="demo-chip" id="demo-chip" hidden>Demo</span>
+
+        <nav class="main-nav" aria-label="Navegación principal">
+          <ul class="main-nav__list">
+            <li><a class="nav-link" href="#/" data-nav-home>Inicio</a></li>
+            <li class="nav-item" data-dropdown>
+              <button class="nav-trigger" type="button" aria-expanded="false" aria-haspopup="true" aria-controls="menu-registro">
+                Registro clínico
+                <span data-icon="chevron-down" data-icon-size="15" aria-hidden="true"></span>
+              </button>
+              <div class="nav-panel" id="menu-registro">
+                <div class="nav-panel__grid" data-nav-group="registro"></div>
+                <div class="nav-panel__foot">
+                  <a href="#/categoria/diagnosticos">Ver todos los diagnósticos <span data-icon="arrow-right" data-icon-size="14" aria-hidden="true"></span></a>
+                </div>
+              </div>
+            </li>
+            <li class="nav-item" data-dropdown>
+              <button class="nav-trigger" type="button" aria-expanded="false" aria-haspopup="true" aria-controls="menu-especialidades">
+                Especialidades
+                <span data-icon="chevron-down" data-icon-size="15" aria-hidden="true"></span>
+              </button>
+              <div class="nav-panel nav-panel--wide" id="menu-especialidades">
+                <div class="nav-panel__grid" data-nav-group="especialidades"></div>
+                <div class="nav-panel__foot">
+                  <a href="#/categoria/neurologia">Explorar las 8 especialidades <span data-icon="arrow-right" data-icon-size="14" aria-hidden="true"></span></a>
+                </div>
+              </div>
+            </li>
+            <li><a class="nav-link" href="#/documentos" data-nav-docs>Documentos</a></li>
+          </ul>
+        </nav>
+
+        <div class="header-actions">
+          <button class="search-trigger" type="button" id="search-trigger" aria-label="Buscar en el registro clínico, atajo Ctrl K" aria-haspopup="dialog">
+            <span data-icon="search" data-icon-size="19" aria-hidden="true"></span>
+            <span class="search-trigger__label">Buscar</span>
+            <kbd class="kbd">Ctrl K</kbd>
+          </button>
+
+          <button class="icon-btn a11y-trigger" type="button" id="a11y-trigger" aria-label="Preferencias de lectura" aria-expanded="false" aria-controls="a11y-panel" data-icon="accessibility" data-icon-size="21"></button>
+
+          <a class="emergency-cta" href="#/categoria/emergencia" aria-label="Emergencia, contactos de urgencia">
+            <span data-icon="phone-call" data-icon-size="18" aria-hidden="true"></span>
+            <span class="emergency-cta__full">Emergencia</span>
+            <span class="emergency-cta__short">SOS</span>
+          </a>
+
+          <div class="user-menu" id="user-menu">
+            <button class="user-trigger" type="button" id="user-trigger" aria-label="Menú de cuenta: RC" aria-expanded="false" aria-haspopup="true" aria-controls="user-popover">
+              <span class="avatar" id="user-initials" aria-hidden="true">RC</span>
+              <span data-icon="chevron-down" data-icon-size="15" aria-hidden="true"></span>
+            </button>
+            <div class="popover" id="user-popover">
+              <div class="popover__head">
+                <span class="avatar" aria-hidden="true">RC</span>
+                <div>
+                  <strong id="user-name">Roberto Cartes</strong>
+                  <span id="user-email">roberto@saludrcartes.cl</span>
+                </div>
+              </div>
+              <button class="popover__item" type="button" data-action="a11y">
+                <span data-icon="type" data-icon-size="18" aria-hidden="true"></span> Preferencias de lectura
+              </button>
+              <a class="popover__item" href="#/acerca">
+                <span data-icon="info" data-icon-size="18" aria-hidden="true"></span> Acerca de este sitio
+              </a>
+              <a class="popover__item" href="emergencia.html" target="_blank" rel="noopener">
+                <span data-icon="external-link" data-icon-size="18" aria-hidden="true"></span> Ficha pública de emergencia
+              </a>
+              <button class="popover__item popover__item--danger" type="button" data-action="logout">
+                <span data-icon="logout" data-icon-size="18" aria-hidden="true"></span> Cerrar sesión
+              </button>
+            </div>
+          </div>
+
+          <button class="icon-btn menu-toggle" type="button" id="menu-toggle" aria-label="Abrir menú de navegación" aria-expanded="false" aria-controls="drawer" data-icon="menu" data-icon-size="22"></button>
+        </div>
+
+        <div class="popover a11y-panel" id="a11y-panel" role="dialog" aria-label="Preferencias de lectura">
+          <div class="a11y-panel__title">
+            <span data-icon="accessibility" data-icon-size="18" aria-hidden="true"></span> Preferencias de lectura
+          </div>
+          <div class="a11y-row">
+            <div>
+              <span class="a11y-row__label">Tamaño del texto</span>
+              <span class="a11y-row__hint">Ajusta sin romper el diseño</span>
+            </div>
+            <div class="seg" role="group" aria-label="Tamaño del texto">
+              <button type="button" data-text-size="md" aria-pressed="true">A</button>
+              <button type="button" data-text-size="lg" aria-pressed="false">A+</button>
+              <button type="button" data-text-size="xl" aria-pressed="false">A++</button>
+            </div>
+          </div>
+          <div class="a11y-row">
+            <div>
+              <span class="a11y-row__label">Contraste alto</span>
+              <span class="a11y-row__hint">Bordes y textos más definidos</span>
+            </div>
+            <button class="switch" type="button" role="switch" aria-checked="false" aria-label="Activar alto contraste" data-toggle="contrast"></button>
+          </div>
+          <div class="a11y-row">
+            <div>
+              <span class="a11y-row__label">Reducir movimiento</span>
+              <span class="a11y-row__hint">Pausa animaciones decorativas</span>
+            </div>
+            <button class="switch" type="button" role="switch" aria-checked="false" aria-label="Reducir movimiento" data-toggle="motion"></button>
+          </div>
+          <button class="btn btn--secondary btn--sm a11y-reset" type="button" data-action="a11y-reset">Restablecer preferencias</button>
+          <p class="a11y-panel__note">Tus preferencias se guardan solo en este dispositivo.</p>
+        </div>
+      </div>
+    </header>
+
+    <div class="drawer-overlay" id="drawer-overlay" aria-hidden="true"></div>
+    <aside class="drawer" id="drawer" aria-label="Menú de navegación" aria-hidden="true">
+      <div class="drawer__head">
+        <a class="brand" href="#/" aria-label="saludrcartes">
+          <span class="brand__mark" data-brand-mark="34" aria-hidden="true"></span>
+          <span class="brand__text">
+            <span class="brand__name">salud<span>rcartes</span></span>
+            <span class="brand__tag">Registro clínico</span>
+          </span>
+        </a>
+        <button class="icon-btn" type="button" id="drawer-close" aria-label="Cerrar menú" data-icon="close" data-icon-size="22"></button>
+      </div>
+      <div class="drawer__body">
+        <button class="drawer__search" type="button" data-action="search">
+          <span data-icon="search" data-icon-size="19" aria-hidden="true"></span>
+          <span>Buscar en el registro</span>
+          <kbd class="kbd">Ctrl K</kbd>
+        </button>
+
+        <a class="drawer__emergency" href="#/categoria/emergencia">
+          <span data-icon="phone-call" data-icon-size="19" aria-hidden="true"></span>
+          Contactos de emergencia
+        </a>
+
+        <div class="drawer__section">
+          <p class="drawer__label">Registro clínico</p>
+          <div class="drawer__links" data-drawer-group="registro"></div>
+        </div>
+
+        <div class="drawer__section">
+          <p class="drawer__label">Especialidades médicas</p>
+          <div class="drawer__links" data-drawer-group="especialidades"></div>
+        </div>
+
+        <div class="drawer__section">
+          <p class="drawer__label">Más</p>
+          <div class="drawer__links">
+            <a class="drawer__link" href="#/">
+              <span class="drawer__link-icon" data-icon="home" data-icon-size="18" aria-hidden="true"></span>
+              Inicio
+              <span data-icon="chevron-right" data-icon-size="16" aria-hidden="true"></span>
+            </a>
+            <a class="drawer__link" href="#/documentos">
+              <span class="drawer__link-icon" data-icon="folder" data-icon-size="18" aria-hidden="true"></span>
+              Biblioteca de documentos
+              <span data-icon="chevron-right" data-icon-size="16" aria-hidden="true"></span>
+            </a>
+            <a class="drawer__link" href="#/acerca">
+              <span class="drawer__link-icon" data-icon="info" data-icon-size="18" aria-hidden="true"></span>
+              Acerca y privacidad
+              <span data-icon="chevron-right" data-icon-size="16" aria-hidden="true"></span>
+            </a>
+            <button class="drawer__link" type="button" data-action="a11y">
+              <span class="drawer__link-icon" data-icon="type" data-icon-size="18" aria-hidden="true"></span>
+              Preferencias de lectura
+              <span data-icon="chevron-right" data-icon-size="16" aria-hidden="true"></span>
+            </button>
+          </div>
+        </div>
+
+        <div class="drawer__foot">
+          <div class="drawer__user">
+            <span class="avatar" aria-hidden="true">RC</span>
+            <div>
+              <strong id="drawer-user-name">Roberto Cartes</strong>
+              <span>sesión privada</span>
+            </div>
+          </div>
+          <button class="icon-btn" type="button" data-action="logout" aria-label="Cerrar sesión" data-icon="logout" data-icon-size="20"></button>
+        </div>
+      </div>
+    </aside>
+
+    <main id="contenido" class="site-main" tabindex="-1">
+      <div class="print-header">
+        <strong>saludrcartes</strong> · Registro clínico personal · <span id="print-date"></span>
+      </div>
+      <div id="app-root"></div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <div class="footer-brand">
+          <a class="brand" href="#/" aria-label="saludrcartes">
+            <span class="brand__mark" data-brand-mark="38" aria-hidden="true"></span>
+            <span class="brand__text">
+              <span class="brand__name">salud<span>rcartes</span></span>
+              <span class="brand__tag">Registro clínico personal</span>
+            </span>
+          </a>
+          <p class="footer-tagline">Una historia clínica cálida, ordenada y disponible. Hecha para entenderte, no para asustarte.</p>
+          <div class="footer-badges">
+            <span class="footer-badge"><span data-icon="lock" data-icon-size="13" aria-hidden="true"></span> Privado</span>
+            <span class="footer-badge"><span data-icon="accessibility" data-icon-size="13" aria-hidden="true"></span> Accesible</span>
+            <span class="footer-badge"><span data-icon="shield-check" data-icon-size="13" aria-hidden="true"></span> Sin terceros</span>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h2>Registro clínico</h2>
+          <ul data-footer-group="registro"></ul>
+        </div>
+
+        <div class="footer-col">
+          <h2>Especialidades</h2>
+          <ul data-footer-group="especialidades"></ul>
+        </div>
+
+        <div class="footer-note">
+          <p><strong style="color:#FFF8F0">En una urgencia, ve directo a lo importante.</strong><br>La ficha pública muestra solo información crítica, sin exponer el historial completo.</p>
+          <a href="emergencia.html">Abrir ficha de emergencia</a>
+          <a href="#/acerca">Cómo cuidamos tus datos</a>
+        </div>
+      </div>
+
+      <div class="container footer-bottom">
+        <span>© <span id="footer-year">2026</span> saludrcartes · Hecho con cuidado para Roberto.</span>
+        <span class="footer-bottom__links">
+          <a href="#/acerca">Privacidad</a>
+          <a href="#/acerca">Accesibilidad</a>
+          <a href="#/documentos">Documentos</a>
+          <span>Versión <span id="footer-version">1.0.0</span></span>
+          <button class="to-top" type="button" data-action="to-top">
+            Volver arriba <span data-icon="arrow-down" data-icon-size="14" aria-hidden="true" style="transform:rotate(180deg)"></span>
+          </button>
+        </span>
+      </div>
+    </footer>
+  </div>
+
+  <div class="toast-region" id="toast-region" aria-live="polite" aria-atomic="false"></div>
+  <div id="modal-root"></div>
+
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/icons.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/views-registro.js"></script>
+  <script src="assets/js/views-especialidad.js"></script>
+  <script src="assets/js/views-extra.js"></script>
+  <script src="assets/js/ui.js"></script>
+</body>
+</html>

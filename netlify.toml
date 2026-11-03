@@ -1,0 +1,15 @@
+[build]
+  publish = "."
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
+
+# URL corta para compartir la ficha pública de emergencia.
+[[redirects]]
+  from = "/emergencia"
+  to = "/emergencia.html"
+  status = 200
+
+# El sitio usa rutas con hash (#/...), por lo que no necesita un rewrite SPA.
+# Los archivos inexistentes deben devolver 404 en lugar de HTML.

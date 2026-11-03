@@ -30,7 +30,7 @@ window.SALUD_CONFIG = {
   /* Fase 2: completa estos valores y cambia auth.mode a 'supabase'.
      La guía está en docs/SEGURIDAD.md y docs/SUPABASE.md. */
   supabase: {
-    url: '',
+    url: 'https://hwgmclnoabyjckpehuvc.supabase.co',
     anonKey: '',
     bucket: 'documentos-clinicos'
   },

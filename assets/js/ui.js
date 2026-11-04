@@ -12,7 +12,6 @@
   const U = App.util;
   const CONFIG = window.SALUD_CONFIG;
   const PREFS_KEY = 'saludrcartes.preferencias';
-  const BANNER_KEY = 'saludrcartes.aviso-demo';
 
   let booted = false;
   let searchEl = null;
@@ -35,7 +34,6 @@
   const a11yPanel = document.getElementById('a11y-panel');
   const a11yTrigger = document.getElementById('a11y-trigger');
   const searchTrigger = document.getElementById('search-trigger');
-  const demoBanner = document.getElementById('demo-banner');
 
   /* ------------------------------- Avisos --------------------------------- */
   function toast(message, type, timeout) {

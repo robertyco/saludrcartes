@@ -13,15 +13,10 @@ window.SALUD_CONFIG = {
 
   /* Modo demostración: muestra un aviso visible y credenciales de prueba.
      Cámbialo a false cuando uses datos reales y autenticación real. */
-  demo: true,
+  demo: false,
 
   auth: {
     mode: 'supabase', // 'demo' | 'supabase'
-    demoUser: {
-      email: 'roberto@saludrcartes.cl',
-      password: 'saludrcartes',
-      nombre: 'Roberto'
-    },
     sessionKey: 'saludrcartes.sesion',
     sessionHours: 12,
     rememberDays: 30

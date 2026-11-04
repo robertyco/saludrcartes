@@ -14,8 +14,8 @@
 
 window.EMERGENCIA_DATA = {
   meta: {
-    demo: true,
-    actualizado: '2026-10-28',
+    demo: false,
+    actualizado: '2026-11-03',
     titular: 'Roberto Carlos Cartes Jiménez',
     sitio: 'saludrcartes',
     publico: true

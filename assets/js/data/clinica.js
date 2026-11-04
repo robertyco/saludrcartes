@@ -17,7 +17,7 @@
 window.SALUD_DATA = {
   meta: {
     version: '1.0.0',
-    demo: true,
+    demo: false,
     actualizado: '2026-10-28',
     titular: 'Roberto Carlos Cartes Jiménez',
     sitio: 'saludrcartes',

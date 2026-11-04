@@ -113,7 +113,7 @@
       chips: [
         App.chip('Versión ' + CONFIG.version, 'neutral', 'sparkle'),
         App.chip('Accesible AA', 'verde', 'accessibility'),
-        App.chip(demo ? 'Modo demostración' : 'Datos personales', demo ? 'amarillo' : 'verde', demo ? 'info' : 'shield-check')
+        App.chip('Datos personales', 'verde', 'shield-check')
       ],
       aside: '<span class="label">Titular</span>' +
         '<strong class="value value--big">' + U.esc(data.perfil.nombre) + '</strong>' +
@@ -185,12 +185,13 @@
         '<div class="about-grid" style="margin-top:1rem">' +
           '<article class="about-card">' +
             '<span class="about-icon">' + U.icon('info', 22) + '</span>' +
-            '<h3>Contenido de demostración</h3>' +
+            '<h3>Contenido del registro</h3>' +
             '<p>Todo el contenido clínico de esta copia es ficticio y está marcado como ejemplo. Sirve para revisar el diseño, la navegación y los estados de cada página antes de cargar información real.</p>' +
             '<ul class="about-list">' +
               '<li>' + U.icon('check', 15) + ' Reemplaza <code>assets/js/data/clinica.js</code> por tus datos.</li>' +
               '<li>' + U.icon('check', 15) + ' Genera tus PDF y actualiza las rutas en <code>documentos</code>.</li>' +
-              '<li>' + U.icon('check', 15) + ' Cambia <code>meta.demo</code> a <code>false</code> y revisa la advertencia de emergencia.</li>' +
+              '<li>' + U.icon('check', 15) + ' Reemplaza los datos y PDFs por tu información real.</li>' +
+              '<li>' + U.icon('check', 15) + ' La ficha de emergencia se mantiene separada del historial.</li>' +
             '</ul>' +
           '</article>' +
 

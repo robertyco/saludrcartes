@@ -474,7 +474,7 @@
     return '<section class="hero">' +
       '<div class="container hero__grid">' +
         '<div class="hero__copy">' +
-          '<span class="hero__eyebrow"><span class="dot"></span> Actualizado el ' + esc(formatDate(D.meta.actualizado)) + (D.meta.demo ? ' · Modo demostración' : '') + '</span>' +
+          '<span class="hero__eyebrow"><span class="dot"></span> Actualizado el ' + esc(formatDate(D.meta.actualizado)) '      ' '</span>' +
           '<h1>Hola, ' + esc(p.preferido || p.nombre.split(' ')[0]) + '.<br>Tu salud, <span class="highlight">clara</span><br>y <span class="highlight-coral">a mano</span>.</h1>' +
           '<p class="hero__lead">Diagnósticos, tratamiento, exámenes y documentos en una sola historia. Clara para ti, útil para tu familia y lista para cualquier profesional que la necesite.</p>' +
           '<div class="hero__actions">' +

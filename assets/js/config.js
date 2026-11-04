@@ -11,12 +11,15 @@ window.SALUD_CONFIG = {
   version: '1.0.0',
   anio: 2026,
 
-  /* Modo demostración: muestra un aviso visible y credenciales de prueba.
-     Cámbialo a false cuando uses datos reales y autenticación real. */
+  /* Aviso de contenido de ejemplo. Cámbialo a false cuando los datos clínicos
+     y los documentos sean reales. */
   demo: false,
 
   auth: {
-    mode: 'supabase', // 'demo' | 'supabase'
+    /* 'public'   → acceso libre, sin usuario ni clave (SDD, sección 4).
+       'supabase' → acceso privado con Supabase Auth (SDD, sección 9).
+       Si cargas datos clínicos reales, usa 'supabase' y activa RLS. */
+    mode: 'public',
     sessionKey: 'saludrcartes.sesion',
     sessionHours: 12,
     rememberDays: 30

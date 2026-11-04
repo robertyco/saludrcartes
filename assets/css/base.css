@@ -24,6 +24,17 @@
   --violeta-texto: #5B21B6;
   --violeta-suave: #F3EEFF;
 
+  /* Metales (SDD, sección 14): oro y plata metalizada.
+     Se usan con texto oscuro encima; las variantes -texto cumplen AA. */
+  --oro: #D4AF37;
+  --oro-texto: #6B4E00;
+  --oro-suave: #FBF1CF;
+  --oro-borde: #E6CE86;
+  --plata: #C0C7CE;
+  --plata-texto: #3F4A56;
+  --plata-suave: #F1F3F6;
+  --plata-borde: #D5DBE1;
+
   /* Neutros */
   --crema: #FFF8F0;
   --crema-2: #FBF0E4;
@@ -80,6 +91,8 @@ html[data-contrast="high"] {
   --coral-suave: #FFE9E9;
   --amarillo-suave: #FFF4D6;
   --violeta-suave: #F0E9FF;
+  --oro-suave: #FFF4CF;
+  --plata-suave: #F2F4F7;
   --sombra-xs: none;
   --sombra-sm: none;
   --sombra-md: none;
@@ -331,6 +344,8 @@ hr { border: 0; border-top: 1px solid var(--linea); margin: 2rem 0; }
 .chip--amarillo { background: var(--amarillo-suave); border-color: #F2DCA2; color: var(--amarillo-texto); }
 .chip--turquesa { background: var(--turquesa-suave); border-color: #B9E6F6; color: var(--turquesa-texto); }
 .chip--violeta { background: var(--violeta-suave); border-color: #D9CBF8; color: var(--violeta-texto); }
+.chip--oro { background: var(--oro-suave); border-color: var(--oro-borde); color: var(--oro-texto); }
+.chip--plata { background: var(--plata-suave); border-color: var(--plata-borde); color: var(--plata-texto); }
 .chip--neutral { background: var(--crema-2); border-color: var(--linea); color: var(--tinta-2); }
 .chip--outline { background: transparent; }
 
@@ -351,6 +366,8 @@ hr { border: 0; border-top: 1px solid var(--linea); margin: 2rem 0; }
 .status--coral { background: var(--coral-suave); color: var(--coral-texto); }
 .status--turquesa { background: var(--turquesa-suave); color: var(--turquesa-texto); }
 .status--violeta { background: var(--violeta-suave); color: var(--violeta-texto); }
+.status--oro { background: var(--oro-suave); color: var(--oro-texto); }
+.status--plata { background: var(--plata-suave); color: var(--plata-texto); }
 .status--neutral { background: var(--crema-2); color: var(--tinta-2); }
 
 .dot {
@@ -990,6 +1007,8 @@ hr { border: 0; border-top: 1px solid var(--linea); margin: 2rem 0; }
 .accent-turquesa { --accent: var(--turquesa); --accent-soft: var(--turquesa-suave); --accent-text: var(--turquesa-texto); --severity: var(--turquesa); }
 .accent-amarillo { --accent: var(--amarillo); --accent-soft: var(--amarillo-suave); --accent-text: var(--amarillo-texto); --severity: var(--amarillo); }
 .accent-violeta { --accent: var(--violeta); --accent-soft: var(--violeta-suave); --accent-text: var(--violeta-texto); --severity: var(--violeta); }
+.accent-oro { --accent: var(--oro); --accent-soft: var(--oro-suave); --accent-text: var(--oro-texto); --severity: var(--oro); }
+.accent-plata { --accent: var(--plata); --accent-soft: var(--plata-suave); --accent-text: var(--plata-texto); --severity: var(--plata); }
 .accent-neutral { --accent: var(--tinta-3); --accent-soft: var(--crema-2); --accent-text: var(--tinta-2); --severity: var(--tinta-3); }
 .eyebrow--cream { color: rgba(255, 248, 240, .7); }
 .eyebrow--cream::before { background: var(--amarillo); }

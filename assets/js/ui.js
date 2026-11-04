@@ -789,10 +789,6 @@
       case 'close-modal':
         closeModal();
         break;
-      case 'close-demo':
-        if (demoBanner) demoBanner.hidden = true;
-        try { window.sessionStorage.setItem(BANNER_KEY, '1'); } catch (error) { /* modo privado */ }
-        break;
       default:
         break;
     }
@@ -844,14 +840,6 @@
       });
     }
 
-    const demoClose = document.getElementById('demo-banner-close');
-    if (demoClose) {
-      demoClose.addEventListener('click', function () {
-        if (demoBanner) demoBanner.hidden = true;
-        try { window.sessionStorage.setItem(BANNER_KEY, '1'); } catch (error) { /* modo privado */ }
-      });
-    }
-
     document.addEventListener('keydown', function (event) {
       const target = event.target;
       const typing = target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.tagName === 'SELECT' || target.isContentEditable);
@@ -892,12 +880,6 @@
     bindMenus();
     bindPrefs();
     bindGlobalActions();
-    try {
-      if (window.sessionStorage.getItem(BANNER_KEY) === '1' && demoBanner) demoBanner.hidden = true;
-    } catch (error) { /* modo privado */ }
-
-    const globalDemo = document.getElementById('demo-banner');
-    if (globalDemo && !CONFIG.demo) globalDemo.hidden = true;
   }
 
   window.SaludUI = {

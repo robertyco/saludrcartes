@@ -7,7 +7,7 @@
   <meta name="referrer" content="no-referrer">
   <meta name="color-scheme" content="light">
   <meta name="theme-color" content="#FFF8F0">
-  <meta name="description" content="Registro clínico personal de Roberto Carlos Cartes Jiménez. Información de salud privada, ordenada y siempre a mano.">
+  <meta name="description" content="Registro clínico personal de Roberto Carlos Cartes Jiménez. Información de salud ordenada y siempre a mano.">
   <title>saludrcartes · Registro clínico personal</title>
 
   <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
@@ -28,13 +28,13 @@
   <a class="skip-link" href="#contenido">Saltar al contenido principal</a>
   <noscript>
     <div style="padding:1.2rem;background:#FFF6DE;color:#4A3600;font-family:system-ui;font-size:.9rem;text-align:center">
-      Este sitio necesita JavaScript para proteger y mostrar tu registro clínico.
+      Este sitio necesita JavaScript para mostrar el registro clínico.
       Si necesitas la ficha de emergencia, abre <a href="emergencia.html" style="text-decoration:underline">emergencia.html</a>.
     </div>
   </noscript>
 
   <!-- ============================ LOGIN ============================ -->
-  <section id="vista-login" class="login" aria-label="Acceso al registro clínico">
+  <section id="vista-login" class="login" aria-label="Acceso al registro clínico" hidden>
     <div class="login__brand on-dark">
       <div>
         <a class="brand" href="index.html">
@@ -69,7 +69,7 @@
 
       <div class="login__foot">
         <span data-icon="lock" data-icon-size="15" aria-hidden="true"></span>
-        <span>Información de salud tratada como confidencial. Acceso solo con credenciales.</span>
+        <span>Información de salud confidencial. Acceso con credenciales solo en modo privado.</span>
       </div>
     </div>
 
@@ -83,7 +83,7 @@
         <form id="login-form" class="login-form" novalidate>
           <div class="field" id="field-email">
             <label for="login-email">Correo electrónico</label>
-            <input class="input" id="login-email" name="email" type="email" inputmode="email" autocomplete="username" spellcheck="false" value="roberto@saludrcartes.cl" required>
+            <input class="input" id="login-email" name="email" type="email" inputmode="email" autocomplete="username" spellcheck="false" placeholder="tu@correo.cl" required>
           </div>
 
           <div class="field" id="field-password">
@@ -113,12 +113,6 @@
           </button>
         </form>
 
-        <div class="login-demo" id="login-demo">
-          <strong><span data-icon="sparkle" data-icon-size="15" aria-hidden="true"></span> Modo demostración</strong>
-          <p style="margin:.25rem 0 0">Credenciales de ejemplo: <code>roberto@saludrcartes.cl</code> · <code>saludrcartes</code></p>
-          <button class="login-demo__btn" type="button" id="demo-fill">Usar credenciales de demostración</button>
-        </div>
-
         <div class="login-alt">
           <span>¿Solo necesitas la ficha de emergencia?</span>
           <a href="emergencia.html">Abrir ficha pública <span data-icon="arrow-up-right" data-icon-size="14" aria-hidden="true"></span></a>
@@ -133,15 +127,7 @@
   </section>
 
   <!-- ============================= APP ============================= -->
-  <div id="vista-app" hidden>
-    <div class="demo-banner" id="demo-banner" role="status">
-      <span data-icon="info" data-icon-size="16" aria-hidden="true"></span>
-      <span><strong>Modo demostración.</strong> El contenido clínico es de ejemplo y no debe usarse en una urgencia real.</span>
-      <span class="demo-banner__spacer"></span>
-      <a href="#/acerca">Cómo funciona esta demo</a>
-      <button class="demo-banner__close" type="button" id="demo-banner-close" aria-label="Cerrar aviso de demostración" data-icon="close" data-icon-size="16"></button>
-    </div>
-
+  <div id="vista-app">
     <header class="site-header" id="site-header">
       <div class="container header-inner">
         <a class="brand" href="#/" aria-label="saludrcartes">
@@ -151,7 +137,6 @@
             <span class="brand__tag">Registro clínico personal</span>
           </span>
         </a>
-        <span class="demo-chip" id="demo-chip" hidden>Demo</span>
 
         <nav class="main-nav" aria-label="Navegación principal">
           <ul class="main-nav__list">
@@ -209,7 +194,7 @@
                 <span class="avatar" aria-hidden="true">RC</span>
                 <div>
                   <strong id="user-name">Roberto Cartes</strong>
-                  <span id="user-email">roberto@saludrcartes.cl</span>
+                  <span id="user-email">Acceso libre</span>
                 </div>
               </div>
               <button class="popover__item" type="button" data-action="a11y">
@@ -221,9 +206,6 @@
               <a class="popover__item" href="emergencia.html" target="_blank" rel="noopener">
                 <span data-icon="external-link" data-icon-size="18" aria-hidden="true"></span> Ficha pública de emergencia
               </a>
-              <button class="popover__item popover__item--danger" type="button" data-action="logout">
-                <span data-icon="logout" data-icon-size="18" aria-hidden="true"></span> Cerrar sesión
-              </button>
             </div>
           </div>
 
@@ -330,10 +312,10 @@
             <span class="avatar" aria-hidden="true">RC</span>
             <div>
               <strong id="drawer-user-name">Roberto Cartes</strong>
-              <span>sesión privada</span>
+              <span id="drawer-user-mode">Acceso libre</span>
             </div>
           </div>
-          <button class="icon-btn" type="button" data-action="logout" aria-label="Cerrar sesión" data-icon="logout" data-icon-size="20"></button>
+          <button class="icon-btn" type="button" id="drawer-logout" data-action="logout" aria-label="Cerrar sesión" data-icon="logout" data-icon-size="20" hidden></button>
         </div>
       </div>
     </aside>
@@ -357,7 +339,7 @@
           </a>
           <p class="footer-tagline">Una historia clínica cálida, ordenada y disponible. Hecha para entenderte, no para asustarte.</p>
           <div class="footer-badges">
-            <span class="footer-badge"><span data-icon="lock" data-icon-size="13" aria-hidden="true"></span> Privado</span>
+            <span class="footer-badge"><span data-icon="lock" data-icon-size="13" aria-hidden="true"></span> Sin indexar</span>
             <span class="footer-badge"><span data-icon="accessibility" data-icon-size="13" aria-hidden="true"></span> Accesible</span>
             <span class="footer-badge"><span data-icon="shield-check" data-icon-size="13" aria-hidden="true"></span> Sin terceros</span>
           </div>
@@ -398,11 +380,10 @@
   <div class="toast-region" id="toast-region" aria-live="polite" aria-atomic="false"></div>
   <div id="modal-root"></div>
 
-  <!-- CDN @supabase/supabase-js (sin build step, werkweise) -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <!-- Supabase se carga desde auth.js solo si auth.mode = 'supabase'. -->
   <script src="assets/js/config.js"></script>
   <script src="assets/js/icons.js"></script>
+  <script src="assets/js/data/clinica.js"></script>
   <script src="assets/js/auth.js"></script>
   <script src="assets/js/app.js"></script>
   <script src="assets/js/views-registro.js"></script>

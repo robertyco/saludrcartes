@@ -184,7 +184,7 @@
         '<a class="btn btn--primary" href="assets/docs/emergencia-ficha-resumen.pdf" download="' + esc('emergencia-ficha-resumen.pdf') + '">' + icon('download', 18) + ' Descargar ficha PDF</a>' +
         '<button class="btn btn--secondary" type="button" id="ep-print-2">' + icon('printer', 18) + ' Imprimir esta ficha</button>' +
         '<button class="btn btn--secondary" type="button" id="ep-share">' + icon('share', 18) + ' Compartir enlace</button>' +
-        '<a class="btn btn--ghost" href="index.html">' + icon('lock', 17) + ' Ir al registro privado</a>' +
+        '<a class="btn btn--ghost" href="index.html">' + icon('home', 17) + ' Abrir registro completo</a>' +
       '</div>' +
 
       '<p class="ep-footer">' + icon('info', 13) + ' saludrcartes · Registro clínico personal. ' +

@@ -48,6 +48,7 @@
     const html = App.pageHero(cat, {
       chips: [
         App.chip(all.length + ' condiciones', 'verde', 'clipboard-pulse'),
+        App.chip(docs.length + ' documentos', 'oro', 'folder'),
         App.chip(active.length + ' activas', 'amarillo', 'activity'),
         App.chip('Actualizado ' + U.formatDate(cat.actualizado, 'medium'), 'neutral', 'refresh')
       ]

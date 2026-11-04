@@ -9,12 +9,13 @@
    Esa separación es intencional: un enlace de emergencia no debe exponer el
    resto del sitio.
 
-   Datos de DEMOSTRACIÓN. Cambia meta.demo a false al usar información real.
+   Datos de DEMOSTRACIÓN. Cambia meta.demo a false solo cuando reemplaces
+   todos los datos y teléfonos por información real.
    ========================================================================== */
 
 window.EMERGENCIA_DATA = {
   meta: {
-    demo: false,
+    demo: true,
     actualizado: '2026-11-03',
     titular: 'Roberto Carlos Cartes Jiménez',
     sitio: 'saludrcartes',

@@ -31,8 +31,8 @@
       icon: 'folder',
       accent: 'turquesa',
       chips: [
-        App.chip(docs.length + ' documentos', 'turquesa', 'folder'),
-        App.chip('PDF descargable', 'neutral', 'download'),
+        App.chip(docs.length + ' documentos', 'plata', 'folder'),
+        App.chip('PDF descargable', 'oro', 'download'),
         App.chip('Última carga ' + U.formatDate(latest, 'medium'), 'neutral', 'calendar')
       ],
       aside: '<span class="label">Archivo personal</span>' +
@@ -137,12 +137,12 @@
 
           '<article class="about-card about-card--green">' +
             '<span class="about-icon">' + U.icon('lock', 22) + '</span>' +
-            '<h3>Privacidad por diseño</h3>' +
-            '<p>El historial completo no está pensado para publicarse. La versión de producción debe protegerlo con autenticación real, reglas por fila y almacenamiento privado.</p>' +
+            '<h3>Privacidad y acceso</h3>' +
+            '<p>Esta copia está en acceso libre de lectura, como indica la sección 4 del SDD. No cargues datos clínicos reales hasta activar Supabase Auth y RLS, o hasta decidir conscientemente que el registro será público.</p>' +
             '<ul class="about-list">' +
               '<li>' + U.icon('check', 15) + ' Sin indexación: <code>robots.txt</code> y <code>noindex</code>.</li>' +
               '<li>' + U.icon('check', 15) + ' Ficha pública con datos mínimos, separada del historial.</li>' +
-              '<li>' + U.icon('check', 15) + ' Sesión local en la demo; Supabase Auth + RLS en producción.</li>' +
+              '<li>' + U.icon('check', 15) + ' Modo privado disponible con Supabase Auth + RLS.</li>' +
               '<li>' + U.icon('check', 15) + ' URLs firmadas y bucket privado para documentos.</li>' +
             '</ul>' +
           '</article>' +
@@ -159,20 +159,25 @@
           '</article>' +
 
           '<article class="about-card">' +
-            '<span class="about-icon">' + U.icon('link', 22) + '</span>' +
-            '<h3>Cómo está construido</h3>' +
-            '<p>Una base liviana, sin dependencias de terceros ni rastreo. Los datos clínicos viven separados de la interfaz para poder migrarlos a Supabase sin rehacer las páginas.</p>' +
-            '<div class="chip-row" style="margin-top:.8rem">' +
-              App.chip('HTML5', 'neutral', 'file-text') +
-              App.chip('CSS', 'turquesa', 'sparkle') +
-              App.chip('JavaScript', 'amarillo', 'activity') +
-              App.chip('Netlify', 'verde', 'compass') +
-              App.chip('Supabase', 'violeta', 'shield-check') +
+            '<span class="about-icon">' + U.icon('sparkle', 22) + '</span>' +
+            '<h3>Paleta del sitio</h3>' +
+            '<p>La paleta del SDD —verde, turquesa, coral, amarillo, violeta, crema, tinta y blanco— más el dorado y el plateado metalizado incorporados en esta versión. Todos los estados combinan icono y texto, nunca solo color.</p>' +
+            '<div class="palette-grid">' +
+              '<span class="palette-swatch"><span class="palette-swatch__color" style="background:#0E9F6E"></span><span class="palette-swatch__meta"><span class="palette-swatch__name">Verde</span><span class="palette-swatch__hex">#0E9F6E</span></span></span>' +
+              '<span class="palette-swatch"><span class="palette-swatch__color" style="background:#38BDF8"></span><span class="palette-swatch__meta"><span class="palette-swatch__name">Turquesa</span><span class="palette-swatch__hex">#38BDF8</span></span></span>' +
+              '<span class="palette-swatch"><span class="palette-swatch__color" style="background:#FF6B6B"></span><span class="palette-swatch__meta"><span class="palette-swatch__name">Coral</span><span class="palette-swatch__hex">#FF6B6B</span></span></span>' +
+              '<span class="palette-swatch"><span class="palette-swatch__color" style="background:#FFC94A"></span><span class="palette-swatch__meta"><span class="palette-swatch__name">Amarillo</span><span class="palette-swatch__hex">#FFC94A</span></span></span>' +
+              '<span class="palette-swatch"><span class="palette-swatch__color" style="background:#8B5CF6"></span><span class="palette-swatch__meta"><span class="palette-swatch__name">Violeta</span><span class="palette-swatch__hex">#8B5CF6</span></span></span>' +
+              '<span class="palette-swatch"><span class="palette-swatch__color" style="background:#FFF8F0"></span><span class="palette-swatch__meta"><span class="palette-swatch__name">Crema</span><span class="palette-swatch__hex">#FFF8F0</span></span></span>' +
+              '<span class="palette-swatch"><span class="palette-swatch__color" style="background:#1F2937"></span><span class="palette-swatch__meta"><span class="palette-swatch__name">Tinta</span><span class="palette-swatch__hex">#1F2937</span></span></span>' +
+              '<span class="palette-swatch"><span class="palette-swatch__color" style="background:#FFFFFF"></span><span class="palette-swatch__meta"><span class="palette-swatch__name">Blanco</span><span class="palette-swatch__hex">#FFFFFF</span></span></span>' +
+              '<span class="palette-swatch palette-swatch--oro"><span class="palette-swatch__color"></span><span class="palette-swatch__meta"><span class="palette-swatch__name">Oro</span><span class="palette-swatch__hex">#D4AF37</span></span></span>' +
+              '<span class="palette-swatch palette-swatch--plata"><span class="palette-swatch__color"></span><span class="palette-swatch__meta"><span class="palette-swatch__name">Plata</span><span class="palette-swatch__hex">#C0C7CE</span></span></span>' +
             '</div>' +
             '<ul class="about-list">' +
-              '<li>' + U.icon('check', 15) + ' Fuentes Quicksand e Inter autoalojadas.</li>' +
-              '<li>' + U.icon('check', 15) + ' Iconos SVG propios, sin librerías externas.</li>' +
-              '<li>' + U.icon('check', 15) + ' Funciones serverless preparadas para URLs firmadas.</li>' +
+              '<li>' + U.icon('check', 15) + ' El oro destaca documentos y respaldos clínicos.</li>' +
+              '<li>' + U.icon('check', 15) + ' La plata identifica archivos y metadatos.</li>' +
+              '<li>' + U.icon('check', 15) + ' Texto oscuro sobre ambos metales para mantener contraste AA.</li>' +
             '</ul>' +
           '</article>' +
         '</div>' +
@@ -182,12 +187,10 @@
             '<span class="about-icon">' + U.icon('info', 22) + '</span>' +
             '<h3>Contenido de demostración</h3>' +
             '<p>Todo el contenido clínico de esta copia es ficticio y está marcado como ejemplo. Sirve para revisar el diseño, la navegación y los estados de cada página antes de cargar información real.</p>' +
-            (demo ? '<div class="callout callout--amarillo" style="margin-top:.8rem">' + U.icon('alert-triangle', 20) +
-              '<div><strong>Credenciales de la demo:</strong> <code>roberto@saludrcartes.cl</code> · <code>saludrcartes</code><br>No uses este acceso para datos personales.</div></div>' : '') +
             '<ul class="about-list">' +
               '<li>' + U.icon('check', 15) + ' Reemplaza <code>assets/js/data/clinica.js</code> por tus datos.</li>' +
               '<li>' + U.icon('check', 15) + ' Genera tus PDF y actualiza las rutas en <code>documentos</code>.</li>' +
-              '<li>' + U.icon('check', 15) + ' Cambia <code>meta.demo</code> a <code>false</code> y desactiva <code>CONFIG.demo</code>.</li>' +
+              '<li>' + U.icon('check', 15) + ' Cambia <code>meta.demo</code> a <code>false</code> y revisa la advertencia de emergencia.</li>' +
             '</ul>' +
           '</article>' +
 
@@ -208,7 +211,7 @@
           '<span class="about-icon">' + U.icon('shield-check', 22) + '</span>' +
           '<h3>Antes de publicar con datos reales</h3>' +
           '<div class="about-list" style="margin-top:.6rem">' +
-            '<li>' + U.icon('check', 15) + ' Conectar Supabase Auth y activar RLS en todas las tablas clínicas.</li>' +
+            '<li>' + U.icon('check', 15) + ' Decidir el acceso: libre (sección 4) o privado con Supabase Auth + RLS (sección 9).</li>' +
             '<li>' + U.icon('check', 15) + ' Mover los PDF a un bucket privado y servirlos con URLs firmadas de corta duración.</li>' +
             '<li>' + U.icon('check', 15) + ' Revisar <code>_headers</code>, CSP y las variables de entorno de Netlify.</li>' +
             '<li>' + U.icon('check', 15) + ' Probar la ficha de emergencia impresa y los enlaces <code>tel:</code> en un teléfono real.</li>' +

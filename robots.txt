@@ -1,4 +1,4 @@
-# saludrcartes — registro clínico privado
+# saludrcartes — registro clínico personal
 # No indexar ninguna ruta. La ficha de emergencia tampoco debe aparecer en buscadores.
 User-agent: *
 Disallow: /

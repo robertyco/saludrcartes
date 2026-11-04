@@ -920,18 +920,20 @@ a.snapshot__item:hover { background: var(--crema); }
   align-items: center;
   padding: .9rem 1rem;
   border: 1px solid var(--linea);
+  border-left: 3px solid var(--oro);
   border-radius: 16px;
   background: var(--blanco);
   transition: border-color var(--transicion), box-shadow var(--transicion), transform var(--transicion);
 }
-.doc-card:hover { border-color: var(--linea-fuerte); box-shadow: var(--sombra-sm); transform: translateY(-1px); }
+.doc-card:hover { border-color: var(--oro-borde); border-left-color: var(--oro); box-shadow: var(--sombra-sm); transform: translateY(-1px); }
 .doc-card__icon {
   display: grid;
   place-items: center;
   width: 46px; height: 46px;
   border-radius: 13px;
-  background: var(--turquesa-suave);
-  color: var(--turquesa-texto);
+  background: linear-gradient(145deg, var(--oro-suave), #F3E3AC);
+  border: 1px solid var(--oro-borde);
+  color: var(--oro-texto);
 }
 .doc-card__name { display: block; font-size: .86rem; font-weight: 650; line-height: 1.35; }
 .doc-card__meta { display: block; margin-top: .12rem; font-size: .7rem; color: var(--tinta-3); line-height: 1.4; }
@@ -1408,12 +1410,36 @@ a.snapshot__item:hover { background: var(--crema); }
 .about-card--green .about-icon { background: rgba(255, 201, 74, .16); color: var(--amarillo); }
 .about-card h3 { margin-bottom: .4rem; font-size: 1.15rem; }
 .about-card p { margin: 0; font-size: .86rem; line-height: 1.6; color: var(--tinta-2); }
+.about-card--green p { color: rgba(255, 248, 240, .78); }
 .about-list { display: grid; gap: .5rem; margin-top: .8rem; }
 .about-list li { display: flex; align-items: flex-start; gap: .45rem; font-size: .82rem; line-height: 1.5; color: var(--tinta-2); }
 .about-list svg { flex: 0 0 auto; margin-top: .1rem; color: var(--verde-texto); }
 .about-card--green .about-list li { color: rgba(255, 248, 240, .72); }
 .about-card--green .about-list svg { color: var(--amarillo); }
 .about-band { margin-top: 1rem; }
+
+/* Paleta del SDD, incluidos oro y plata */
+.palette-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: .55rem;
+  margin-top: .9rem;
+}
+.palette-swatch {
+  overflow: hidden;
+  border: 1px solid var(--linea);
+  border-radius: 12px;
+  background: var(--blanco);
+}
+.palette-swatch__color { display: block; height: 38px; }
+.palette-swatch__meta { display: block; padding: .4rem .5rem; }
+.palette-swatch__name { display: block; font-size: .7rem; font-weight: 700; line-height: 1.2; color: var(--tinta); }
+.palette-swatch__hex { display: block; margin-top: .1rem; font-size: .64rem; line-height: 1.2; color: var(--tinta-3); }
+.palette-swatch--oro .palette-swatch__color { background: linear-gradient(135deg, #F6E7A8, var(--oro) 55%, #A9810F); }
+.palette-swatch--plata .palette-swatch__color { background: linear-gradient(135deg, #F7F9FB, var(--plata) 55%, #8C959E); }
+@media (max-width: 640px) {
+  .palette-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
 
 /* ------------------------- Ajustes de interacción ----------------------- */
 .critical-panel { grid-template-columns: .85fr 1fr 1fr 1fr; }

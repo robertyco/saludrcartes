@@ -206,7 +206,7 @@
     width: auto;
     max-width: none;
   }
-  .ep-header__actions .btn span { display: none; }
+  .ep-header__actions .btn span:not([data-icon]) { display: none; }
 }
 
 /* ----------------------------- 560 px ----------------------------------- */
@@ -259,6 +259,13 @@
   .ep-intro h1 { font-size: 1.7rem; }
   .ep-critical { grid-template-columns: 1fr; }
   .ep-critical__block { border-top: 1px solid rgba(31, 41, 55, .18); padding-top: .7rem; }
+}
+
+/* ----------------------------- 380 px ----------------------------------- */
+@media (max-width: 380px) {
+  .header-actions .search-trigger { display: none; }
+  .brand__name { font-size: 1.08rem; }
+  .emergency-cta { padding-inline: .55rem; }
 }
 
 /* --------------------------- Movimiento reducido ------------------------ */

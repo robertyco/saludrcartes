@@ -54,7 +54,7 @@
       chips: [
         App.statusBadge(main ? main.estado : cat.estado, main ? main.tono : 'neutral', 'activity'),
         App.chip((main && main.cie10 ? 'CIE-10 ' + main.cie10 : 'Sin CIE-10'), 'neutral', 'file-text'),
-        App.chip(docs.length + ' ' + U.countLabel(docs.length, 'documento', 'documentos'), 'turquesa', 'folder'),
+        App.chip(docs.length + ' ' + U.countLabel(docs.length, 'documento', 'documentos'), 'oro', 'folder'),
         App.chip('Actualizado ' + U.formatDate(cat.actualizado, 'medium'), 'neutral', 'refresh')
       ]
     }) +

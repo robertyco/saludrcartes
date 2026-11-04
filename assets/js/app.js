@@ -228,13 +228,17 @@
     if (espFoot) espFoot.innerHTML = 'Explorar las ' + idx.categorias.filter((c) => c.tipo === 'especialidad').length + ' especialidades ' + icon('arrow-right', 14);
 
     const profile = D.perfil;
+    const privateMode = CONFIG.auth && CONFIG.auth.mode === 'supabase';
     setText('#user-name', profile.nombre);
-    setText('#user-email', profile.correo || CONFIG.auth.demoUser.email);
+    setText('#user-email', privateMode ? (profile.correo || 'Sesión iniciada') : 'Acceso libre · sin clave');
     setText('#drawer-user-name', profile.nombre);
     document.querySelectorAll('.avatar').forEach((el) => { el.textContent = profile.iniciales || 'RC'; });
 
     document.querySelectorAll('#footer-year').forEach((el) => { el.textContent = String(new Date().getFullYear()); });
     document.querySelectorAll('#footer-version').forEach((el) => { el.textContent = CONFIG.version; });
+
+    // Hidrata los iconos estáticos del encabezado, cajón y pie.
+    Icons.hydrate(document);
 
     const printDate = document.getElementById('print-date');
     if (printDate) {
@@ -478,7 +482,7 @@
             '<a class="btn btn--secondary btn--lg" href="#/categoria/emergencia">' + icon('phone-call', 19) + ' Ficha de emergencia</a>' +
           '</div>' +
           '<p class="hero__meta">' +
-            '<span>' + icon('lock', 14) + ' Acceso privado</span>' +
+            '<span>' + icon('eye', 14) + ' Acceso libre sin clave</span>' +
             '<span>' + icon('shield-check', 14) + ' Sin buscadores ni terceros</span>' +
             '<span>' + icon('folder', 14) + ' ' + idx.docs.length + ' documentos disponibles</span>' +
           '</p>' +
@@ -504,7 +508,7 @@
           '<span class="hero-float hero-float--1"><span class="hero-float__icon">' + icon('book', 15) + '</span><span>' + idx.docs.length + ' documentos<small>Informes y recetas</small></span></span>' +
           '<span class="hero-float hero-float--2"><span class="hero-float__icon">' + icon('heart-pulse', 15) + '</span><span>' + specialties + ' especialidades<small>Una sola historia</small></span></span>' +
           '<span class="hero-float hero-float--3"><span class="hero-float__icon">' + icon('users', 15) + '</span><span>' + idx.contactos.length + ' contactos<small>Llamada directa</small></span></span>' +
-          '<span class="hero-float hero-float--4"><span class="hero-float__icon">' + icon('lock', 15) + '</span><span>Privado<small>Solo con tu acceso</small></span></span>' +
+          '<span class="hero-float hero-float--4"><span class="hero-float__icon">' + icon('shield-check', 15) + '</span><span>Sin indexar<small>Fuera de buscadores</small></span></span>' +
         '</div>' +
       '</div>' +
 

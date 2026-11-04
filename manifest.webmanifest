@@ -1,7 +1,7 @@
 {
   "name": "saludrcartes · Registro clínico personal",
   "short_name": "saludrcartes",
-  "description": "Registro clínico personal privado de Roberto Carlos Cartes Jiménez, con ficha pública de emergencia.",
+  "description": "Registro clínico personal de Roberto Carlos Cartes Jiménez, con ficha pública de emergencia.",
   "lang": "es-CL",
   "dir": "ltr",
   "start_url": "./index.html",

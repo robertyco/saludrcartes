@@ -66,12 +66,12 @@
   align-items: center;
   gap: .35rem;
   padding: .35rem .7rem;
-  border: 1px solid var(--linea);
+  border: 1px solid var(--oro-borde);
   border-radius: var(--radio-pill);
-  background: var(--blanco);
+  background: var(--oro-suave);
   font-size: .72rem;
   font-weight: 650;
-  color: var(--tinta-2);
+  color: var(--oro-texto);
 }
 .ep-critical {
   position: relative;
@@ -111,7 +111,8 @@
 }
 .ep-card {
   padding: 1.2rem;
-  border: 1px solid var(--linea);
+  border: 1px solid var(--plata-borde);
+  border-left: 3px solid var(--plata);
   border-radius: 22px;
   background: var(--blanco);
 }
@@ -323,7 +324,7 @@
 }
 @media (max-width: 720px) {
   .ep-header__inner { min-height: 60px; }
-  .ep-header__actions .btn span { display: none; }
+  .ep-header__actions .btn span:not([data-icon]) { display: none; }
   .ep-updated { display: none; }
   .ep-main { padding-bottom: 6rem; }
   .ep-critical { grid-template-columns: 1fr 1fr; gap: 1rem; padding: 1.15rem; border-radius: 22px; }

@@ -1,16 +1,17 @@
 /* ============================================================================
    saludrcartes — Datos clínicos (DEMOSTRACIÓN)
    ----------------------------------------------------------------------------
-   Este archivo contiene el registro completo que se carga DESPUÉS del inicio
-   de sesión. Todos los datos son de ejemplo y están marcados como tales.
+   Este archivo contiene el registro completo que se muestra al abrir el sitio.
+   Todos los datos son de ejemplo y están marcados como tales.
 
    Para usar tus datos reales:
    1. Edita este archivo con tu información (o conéctalo a Supabase, ver README).
    2. Cambia meta.demo a false.
    3. Reemplaza los PDF de assets/docs por tus documentos reales.
 
-   IMPORTANTE: este sitio estático NO debe publicarse con datos clínicos reales
-   hasta conectar Supabase Auth + RLS. Lee docs/SEGURIDAD.md antes de desplegar.
+   IMPORTANTE: el acceso es libre según la sección 4 del SDD. Si publicas datos
+   clínicos reales, revisa la normativa aplicable y considera activar el modo
+   privado con Supabase Auth + RLS. Lee docs/SEGURIDAD.md antes de desplegar.
    ========================================================================== */
 
 window.SALUD_DATA = {
@@ -851,8 +852,8 @@ window.SALUD_DATA = {
   principios: [
     {
       icono: 'shield-heart',
-      titulo: 'Privado por diseño',
-      texto: 'Un registro personal, sin buscadores ni terceros. La información crítica tiene un acceso aparte y el historial completo queda bajo inicio de sesión.'
+      titulo: 'Sin buscadores ni terceros',
+      texto: 'Un registro personal que no se indexa y que, en modo público, no carga herramientas de terceros. La información crítica tiene una ficha aparte y el historial completo queda en este sitio.'
     },
     {
       icono: 'compass',

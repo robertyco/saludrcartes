@@ -1,0 +1,11 @@
+# Local Netlify folder
+.netlify
+
+# Variables de entorno locales
+.env
+
+# Extracciones internas del SDD (no publicar)
+_SDD_*
+
+# Registros
+*.log

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <defs>
+    <path id="sealPath" d="M100 100m-73 0a73 73 0 1 1 146 0a73 73 0 1 1-146 0"/>
+    <linearGradient id="sealGold" x1="30" y1="20" x2="170" y2="180">
+      <stop offset="0" stop-color="#F8E9B0"/>
+      <stop offset=".4" stop-color="#D4AF37"/>
+      <stop offset=".7" stop-color="#A97E1F"/>
+      <stop offset="1" stop-color="#F3DF9B"/>
+    </linearGradient>
+  </defs>
+  <circle cx="100" cy="100" r="96" fill="#FFF8F0" fill-opacity=".55" stroke="url(#sealGold)" stroke-width="1.2"/>
+  <circle cx="100" cy="100" r="78" fill="none" stroke="#D4AF37" stroke-opacity=".42" stroke-width="1"/>
+  <circle cx="100" cy="100" r="55" fill="#0B2A21"/>
+  <circle cx="100" cy="100" r="55" fill="none" stroke="url(#sealGold)" stroke-width="1.5"/>
+  <circle cx="100" cy="100" r="48" fill="none" stroke="#D4AF37" stroke-opacity=".4" stroke-width=".8" stroke-dasharray="1 4"/>
+  <text fill="url(#sealGold)" font-family="Quicksand, Arial, sans-serif" font-size="9.2" font-weight="600" letter-spacing="2.5">
+    <textPath href="#sealPath" startOffset="0%">SALUD · CARTES · REGISTRO CLÍNICO · 2026 · </textPath>
+  </text>
+  <text x="100" y="111" text-anchor="middle" fill="#FFF8F0" font-family="Fraunces, Georgia, serif" font-style="italic" font-size="36">rc</text>
+  <path d="M100 61v10M95 66h10" stroke="#D4AF37" stroke-width="1.6" stroke-linecap="round"/>
+  <path d="M100 129v10M95 134h10" stroke="#D4AF37" stroke-width="1.6" stroke-linecap="round"/>
+</svg>

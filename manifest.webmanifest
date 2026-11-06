@@ -10,7 +10,11 @@
   "orientation": "portrait-primary",
   "background_color": "#FFF8F0",
   "theme_color": "#FFF8F0",
-  "categories": ["health", "medical", "productivity"],
+  "categories": [
+    "health",
+    "medical",
+    "productivity"
+  ],
   "icons": [
     {
       "src": "assets/img/icon-192.png",

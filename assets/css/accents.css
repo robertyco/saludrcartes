@@ -1,0 +1,47 @@
+/* ==========================================================================
+   Per-page accent themes.
+   Applied to <body> (whole page) or to a single card.
+   ========================================================================== */
+
+.accent-verde {
+  --accent: #0e9f6e;
+  --accent-rgb: 14, 159, 110;
+  --accent-deep: #064e3b;
+  --accent-soft: #e7f6f0;
+}
+
+.accent-coral {
+  --accent: #ef5b5b;
+  --accent-rgb: 239, 91, 91;
+  --accent-deep: #8f2626;
+  --accent-soft: #ffe9e7;
+}
+
+.accent-turquesa {
+  --accent: #0e9fc7;
+  --accent-rgb: 14, 159, 199;
+  --accent-deep: #075985;
+  --accent-soft: #e1f4fb;
+}
+
+.accent-violeta {
+  --accent: #8b5cf6;
+  --accent-rgb: 139, 92, 246;
+  --accent-deep: #5b21b6;
+  --accent-soft: #f1eafe;
+}
+
+.accent-amarillo {
+  --accent: #c99a00;
+  --accent-rgb: 201, 154, 0;
+  --accent-deep: #6b4e00;
+  --accent-soft: #fff3cf;
+}
+
+/* The emergency page is its own dark theme; keep accents coral there. */
+body.theme-emergency {
+  --accent: #ff6b6b;
+  --accent-rgb: 255, 107, 107;
+  --accent-deep: #ffb1a8;
+  --accent-soft: rgba(255, 107, 107, 0.12);
+}

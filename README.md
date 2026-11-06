@@ -1,73 +1,90 @@
 # saludrcartes
 
-Registro clínico personal de **Roberto Carlos Cartes Jiménez**.
+Registro clínico personal de **Roberto Carlos Cartes Jiménez**, construido como sitio estático de 13 páginas. El objetivo es que cualquier persona —Roberto, su familia o un equipo de salud— encuentre en segundos lo que necesita, incluso en una urgencia.
 
-- **Acceso:** libre, sin usuario ni clave, según la sección 4 del SDD.
-- **Estado:** 13 páginas (Inicio + 12 páginas clínicas), 19 PDF de ejemplo y ficha pública de emergencia.
-- **Diseño:** paleta del SDD con **oro #D4AF37** y **plata #C0C7CE** incorporados; Quicksand + Inter; WCAG 2.1 AA.
-- **Pila:** HTML/CSS/JS estático, Netlify Functions y Supabase opcional para el modo privado.
-- **Contenido:** los datos clínicos actuales son de ejemplo. Reemplaza `assets/js/data/clinica.js`, `assets/js/data/emergencia.js` y los PDF antes de usar el sitio con información real.
+> Los datos de contacto y el centro asistencial son de ejemplo. Reemplázalos por información real antes de usar la ficha de emergencia.
 
-## Estructura rápida
+## Páginas
 
-- `index.html` — shell del registro, navegación por hash y páginas clínicas.
-- `emergencia.html` — ficha pública mínima; solo carga `data/emergencia.js`.
-- `assets/js/app.js` + `views-*.js` — aplicación y plantillas compartidas.
-- `assets/js/data/clinica.js` — dataset clínico de ejemplo (`meta.demo: true`).
-- `assets/js/data/emergencia.js` — datos críticos mínimos de la ficha pública.
-- `assets/docs/` — 19 PDF de ejemplo marcados como documentos sin valor clínico.
-- `assets/css/` — base, páginas, overlays, responsive, impresión y emergencia.
-- `netlify.toml`, `_headers`, `manifest.webmanifest` — despliegue, seguridad y PWA.
+| Archivo | Capítulo | Grupo |
+|---|---|---|
+| `index.html` | Inicio | Portada |
+| `diagnosticos.html` | Diagnósticos | Registro clínico |
+| `medicamentos.html` | Medicamentos y alergias | Registro clínico |
+| `laboratorio.html` | Laboratorio | Registro clínico |
+| `neurologia.html` | Neurología | Especialidades médicas |
+| `cardiologia.html` | Cardiología | Especialidades médicas |
+| `fisiatria.html` | Fisiatría | Especialidades médicas |
+| `rehabilitacion.html` | Rehabilitación | Especialidades médicas |
+| `fonoaudiologia.html` | Fonoaudiología | Especialidades médicas |
+| `psiquiatria.html` | Psiquiatría | Especialidades médicas |
+| `traumatologia-superior.html` | Traumatología superior | Especialidades médicas |
+| `traumatologia-inferior.html` | Traumatología inferior | Especialidades médicas |
+| `emergencia.html` | Contactos de emergencia | Emergencia |
 
-## Acceso público y modo privado
+Además: `emergencia.html` (ficha pública, sin login) y `404.html`.
 
-El valor por defecto es `auth.mode = 'public'` en `assets/js/config.js`:
+## Cómo verlo en local
 
-- El sitio abre directamente el registro, sin pantalla de login.
-- No se cargan credenciales de demostración.
-- Supabase no se descarga en modo público: no hay peticiones a terceros.
+No requiere dependencias externas:
 
-Si más adelante quieres proteger el historial:
+```powershell
+python -m http.server 8080
+```
 
-1. Cambia `auth.mode` a `'supabase'`.
-2. Configura Supabase Auth, las tablas y las políticas RLS.
-3. Revisa `docs/SUPABASE.md` y `docs/SEGURIDAD.md`.
+Abre `http://localhost:8080/`.
 
-La pantalla de login sigue disponible para ese modo, pero permanece oculta mientras el acceso sea libre.
+## Cómo reconstruirlo
 
-## Paleta
+Los datos viven en `data/registro.json` y el sitio se genera con Python estándar:
 
-| Color | Hex |
-| --- | --- |
-| Verde | `#0E9F6E` |
-| Turquesa | `#38BDF8` |
-| Coral | `#FF6B6B` |
-| Amarillo | `#FFC94A` |
-| Violeta | `#8B5CF6` |
-| Crema | `#FFF8F0` |
-| Tinta | `#1F2937` |
-| Blanco | `#FFFFFF` |
-| **Oro** | `#D4AF37` |
-| **Plata** | `#C0C7CE` |
+```powershell
+python tools/prepare_data.py   # normaliza la fuente clínica
+python tools/build_art.py      # regenera las 13 ilustraciones SVG
+python tools/build_site.py     # genera HTML, búsqueda, manifest y configuración
+```
 
-El oro destaca documentos y respaldos clínicos; la plata identifica archivos y metadatos. Ambos se combinan con texto oscuro para conservar el contraste AA.
+`tools/build_site.py` escribe las 13 páginas, `assets/js/search-index.js`, `manifest.webmanifest`, `_headers`, `netlify.toml`, `robots.txt` y `404.html`.
+
+## Diseño
+
+- Estética editorial cálida: crema, verde bosque, detalles en oro y plata.
+- Tipografías locales: Quicksand (display), Inter (texto) y Fraunces (editorial).
+- Ilustración SVG original para cada página en `assets/img/art/`.
+- Fondo ambiental con arte propia, parallax suave, revelados y marcos arqueados.
+- Componentes: índice lateral, búsqueda global (`Ctrl+K` o `/`), visor de PDF, ajustes de lectura y ficha de emergencia sticky.
 
 ## Accesibilidad
 
-- Navegación por teclado y foco visible.
-- Enlace para saltar al contenido.
-- Tamaño de texto ajustable y modo de alto contraste.
-- Preferencia de movimiento reducido.
-- Objetivos táctiles de al menos 44 × 44 px.
-- Estados con icono y texto, no solo color.
+- HTML semántico, enlace para saltar al contenido y foco visible.
+- Contraste WCAG 2.1 AA; los estados siempre llevan texto además de color.
+- Objetivos táctiles de 44×44 px.
+- Preferencias de tamaño de texto, alto contraste y reducción de movimiento.
+- Navegación por teclado y cierre con `Esc`.
+- Estilos de impresión para la ficha de emergencia y las páginas clínicas.
 
-## Documentación
+## Privacidad y despliegue
 
-- `docs/CONTENIDO.md` — rutas, datos y plantillas.
-- `docs/SEGURIDAD.md` — modelo de acceso y recomendaciones.
-- `docs/SUPABASE.md` — pasos para el modo privado.
-- `docs/DESPLIEGUE.md` — Netlify, cabeceras y verificación.
+- `noindex, nofollow` en todas las páginas y `robots.txt` con `Disallow: /`.
+- Sin cookies de terceros, sin analítica y sin llamadas a servicios externos.
+- Los PDF viven en `assets/docs/` y se sirven desde el mismo origen.
+- Configuración lista para Netlify: `netlify.toml`, `_headers`, `manifest.webmanifest` y `404.html`.
+- El sitio es público (sin login) por decisión de producto; la ficha de emergencia funciona de forma independiente.
 
-## Documentos de ejemplo
+## Estructura
 
-Todos los PDF de `assets/docs/` son ficticios. El generador está en `tools/generate-demo-pdfs.py` (PyMuPDF + fuentes locales). Reemplázalos por tus informes reales y actualiza las rutas en `clinica.js`.
+```text
+assets/
+  css/         sistema de diseño, temas por página y responsive
+  docs/        PDF clínicos preservados + ficha de emergencia
+  fonts/       fuentes locales
+  img/art/     ilustraciones SVG por página
+  img/ui/      sello y favicon
+  js/          theme-boot.js, site.js y search-index.js
+data/          registro clínico normalizado
+tools/         generadores de datos, arte y sitio
+```
+
+## Nota clínica
+
+Este sitio organiza información personal; no reemplaza una consulta médica. Ante una urgencia con riesgo vital, llama al **131** (SAMU) o acude al servicio de urgencia más cercano.

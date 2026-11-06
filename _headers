@@ -1,5 +1,5 @@
 /*
-  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; form-action 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; frame-src 'self'; connect-src 'self' https://*.supabase.co wss://*.supabase.co; upgrade-insecure-requests
+  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; form-action 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; frame-src 'self'; connect-src 'self'; upgrade-insecure-requests
   X-Frame-Options: SAMEORIGIN
   X-Content-Type-Options: nosniff
   Referrer-Policy: no-referrer
@@ -8,16 +8,15 @@
   Cross-Origin-Resource-Policy: same-origin
   Strict-Transport-Security: max-age=31536000; includeSubDomains
 
-/index.html
+/*.html
   Cache-Control: no-store, max-age=0
   X-Robots-Tag: noindex, nofollow, noarchive, nosnippet
 
-/emergencia.html
-  Cache-Control: no-store, max-age=0
-  X-Robots-Tag: noindex, nofollow, noarchive, nosnippet
+/assets/js/*.js
+  Cache-Control: public, max-age=3600
 
-/assets/js/data/*
-  Cache-Control: no-store, max-age=0
+/assets/css/*.css
+  Cache-Control: public, max-age=3600
 
 /assets/docs/*
   Cache-Control: no-store, max-age=0
@@ -28,9 +27,3 @@
 
 /assets/img/*
   Cache-Control: public, max-age=604800
-
-/assets/css/*
-  Cache-Control: public, max-age=3600
-
-/assets/js/*
-  Cache-Control: public, max-age=3600

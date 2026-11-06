@@ -1,6 +1,12 @@
 [build]
   publish = "."
 
+# La portada es #/; sin hash debe servir el mismo contenido.
+[[redirects]]
+  from = "/"
+  to = "/#/"
+  status = 200
+
 # URL corta para compartir la ficha pública de emergencia.
 [[redirects]]
   from = "/emergencia"

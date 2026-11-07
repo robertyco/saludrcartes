@@ -1901,7 +1901,7 @@ def build_readme() -> str:
 
 Registro clínico personal de **{PERFIL['nombre']}**, construido como sitio estático de 13 páginas. El objetivo es que cualquier persona —Roberto, su familia o un equipo de salud— encuentre en segundos lo que necesita, incluso en una urgencia.
 
-> Los teléfonos de contacto fueron entregados por el titular. El centro asistencial aún no está confirmado y debe verificarse antes de una urgencia.
+> Los teléfonos de contacto y el centro asistencial (Hospital El Carmen, HEC) fueron entregados por el titular. Verificar su vigencia antes de una urgencia.
 
 ## Páginas
 

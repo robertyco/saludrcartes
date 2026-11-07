@@ -2,7 +2,7 @@
 
 Registro clínico personal de **Roberto Carlos Cartes Jiménez**, construido como sitio estático de 13 páginas. El objetivo es que cualquier persona —Roberto, su familia o un equipo de salud— encuentre en segundos lo que necesita, incluso en una urgencia.
 
-> Los datos de contacto y el centro asistencial son de ejemplo. Reemplázalos por información real antes de usar la ficha de emergencia.
+> Los teléfonos de contacto fueron entregados por el titular. El centro asistencial aún no está confirmado y debe verificarse antes de una urgencia.
 
 ## Páginas
 

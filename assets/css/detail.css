@@ -526,6 +526,56 @@
 .severity--moderada { background: rgba(255, 107, 107, 0.16); color: #8f2626; }
 .severity--leve { background: rgba(255, 201, 74, 0.22); color: #7a5a00; }
 .severity--alta { background: #ffd9d6; color: #7f1d1d; }
+.allergy-clear {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.9rem;
+  padding: 1.1rem 1.2rem;
+  border: 1px solid rgba(14, 159, 110, 0.28);
+  border-left: 3px solid var(--green);
+  border-radius: 0 18px 18px 0;
+  background: rgba(14, 159, 110, 0.07);
+}
+.allergy-clear__icon {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--green);
+  color: #f2fdf8;
+}
+.allergy-clear__icon .icon { width: 18px; height: 18px; }
+.allergy-clear h3 { font-family: var(--font-display); font-size: 1rem; font-weight: 700; letter-spacing: -0.03em; }
+.allergy-clear p { margin-top: 0.15rem; font-size: 0.78rem; color: var(--ink-2); }
+
+/* ---------- surgical history -------------------------------------------- */
+.op-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.8rem; margin-top: 1rem; }
+.op-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  padding: 1.1rem;
+  border: 1px solid var(--line-soft);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.7);
+  transition: border-color 0.25s ease, transform 0.25s var(--ease);
+}
+.op-card:hover { border-color: rgba(var(--accent-rgb), 0.28); transform: translateY(-2px); }
+.op-card__icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  flex: none;
+  border-radius: 12px;
+  background: rgba(var(--accent-rgb), 0.1);
+  color: var(--accent-deep);
+}
+.op-card__icon .icon { width: 19px; height: 19px; }
+.op-card h3 { font-family: var(--font-display); font-size: 1rem; font-weight: 700; letter-spacing: -0.03em; }
+.op-card p { margin-top: 0.15rem; font-size: 0.74rem; color: var(--muted); }
 
 .med-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.8rem; margin-top: 1rem; }
 .med-card {

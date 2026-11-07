@@ -21,8 +21,8 @@ window.SALUD_BUSQUEDA = [
  {
   "title": "Medicamentos y alergias",
   "group": "Registro clínico",
-  "description": "Tratamiento vigente, horarios, alergias y nivel de severidad.",
-  "keywords": "medicamentos receta paracetamol ibuprofeno vitamina D omeprazol alergia penicilina polen",
+  "description": "Tratamiento vigente, dosis, frecuencia y receta descargable.",
+  "keywords": "medicamentos receta metformina aspirina ácido valproico tamsulosina gabapentina jardiance losartán pregabalina trazodona furosemida espironolactona venlafaxina atorvastatina tramadol risperidona semaglutida",
   "url": "medicamentos.html",
   "number": "02",
   "featured": true
@@ -211,7 +211,7 @@ window.SALUD_BUSQUEDA = [
   "title": "Tratamiento vigente y alergias",
   "group": "Diagnóstico · CIE-10 s/c",
   "description": "Vigente · Medicina general · Dra. Valentina Rojas",
-  "keywords": "Revisión de medicamentos activos, indicaciones, horarios y alergias registradas. Medicina general Dra. Valentina Rojas",
+  "keywords": "Revisión de los dieciséis medicamentos activos, sus dosis y la ausencia de alergias medicamentosas. Medicina general Dra. Valentina Rojas",
   "url": "medicamentos.html",
   "number": "02",
   "featured": false
@@ -263,10 +263,10 @@ window.SALUD_BUSQUEDA = [
  },
  {
   "title": "Receta vigente — tratamiento actual",
-  "group": "Documento PDF · 20 oct 2026",
-  "description": "Medicamentos activos, dosis y duración.",
-  "keywords": "Receta vigente — tratamiento actual Medicamentos activos, dosis y duración. Medicamentos y alergias pdf documento",
-  "url": "assets/docs/medicamentos-2026-10-20-receta-vigente.pdf",
+  "group": "Documento PDF · 6 nov 2026",
+  "description": "Dieciséis medicamentos activos, dosis y frecuencia.",
+  "keywords": "Receta vigente — tratamiento actual Dieciséis medicamentos activos, dosis y frecuencia. Medicamentos y alergias pdf documento",
+  "url": "assets/docs/medicamentos-2026-11-06-receta-vigente.pdf",
   "number": "PDF",
   "featured": false
  },
@@ -407,7 +407,7 @@ window.SALUD_BUSQUEDA = [
  },
  {
   "title": "Ficha de emergencia — resumen clínico",
-  "group": "Documento PDF · 28 oct 2026",
+  "group": "Documento PDF · 6 nov 2026",
   "description": "Diagnósticos, alergias, medicamentos y contactos en una hoja imprimible.",
   "keywords": "Ficha de emergencia — resumen clínico Diagnósticos, alergias, medicamentos y contactos en una hoja imprimible. Contactos de emergencia pdf documento",
   "url": "assets/docs/emergencia-ficha-resumen.pdf",

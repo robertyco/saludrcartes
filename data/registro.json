@@ -2,7 +2,7 @@
   "meta": {
     "version": "1.0.0",
     "demo": false,
-    "actualizado": "2026-10-28",
+    "actualizado": "2026-11-06",
     "titular": "Roberto Carlos Cartes Jiménez",
     "sitio": "saludrcartes",
     "lema": "Tu historia clínica, con calidez y a mano."
@@ -24,30 +24,36 @@
   },
   "critico": {
     "grupoSanguineo": "O+",
-    "alergias": [
-      {
-        "sustancia": "Penicilina",
-        "severidad": "Moderada",
-        "reaccion": "Urticaria y picazón",
-        "nota": "Evitar penicilina y derivados. Informar en cada atención."
-      }
-    ],
+    "alergias": [],
     "condiciones": [
       "Lumbalgia mecánica en seguimiento",
-      "Síndrome de túnel carpiano derecho",
+      "Síndrome de túnel carpiano bilateral (operado)",
       "Dolor de hombro derecho"
     ],
     "medicamentos": [
-      "Paracetamol 500 mg, según necesidad",
-      "Ibuprofeno 400 mg, según necesidad",
-      "Vitamina D 1000 UI, diaria"
+      "Metformina 850 mg, cada 8 horas",
+      "Aspirina 100 mg, cada 24 horas",
+      "Ácido valproico 250 mg, cada 8 horas",
+      "Tamsulosina 0,4 mg, cada 24 horas",
+      "Gabapentina 300 mg, cada 24 horas",
+      "Jardiance 25 mg, cada 24 horas",
+      "Losartán 50 mg (½ comprimido), cada 24 horas",
+      "Pregabalina 75 mg, cada 12 horas",
+      "Trazodona 25 mg, cada 24 horas",
+      "Furosemida 40 mg (½ comprimido), cada 24 horas",
+      "Espironolactona 25 mg (½ comprimido), cada 24 horas",
+      "Venlafaxina 75 mg (3 comprimidos), cada 24 horas",
+      "Atorvastatina 20 mg, cada 24 horas",
+      "Tramadol 100 mg/ml (10 gotas), cada 8 horas",
+      "Risperidona 1 mg/ml (5 gotas), cada 12 horas",
+      "Semaglutida 0,5 mg, cada 7 días"
     ],
     "notas": [
-      "No se registran alergias graves conocidas.",
-      "Portar la ficha impresa en cada control.",
-      "Confirmar teléfonos de contacto antes de una urgencia."
+      "Sin alergias a medicamentos conocidas.",
+      "Portar la ficha impresa o abrir esta página en cada control.",
+      "Confirmar los teléfonos de contacto antes de una urgencia."
     ],
-    "actualizado": "2026-10-28"
+    "actualizado": "2026-11-06"
   },
   "grupos": [
     {
@@ -108,14 +114,14 @@
       "orden": 2,
       "tipo": "medicamentos",
       "afeccion_id": "afeccion-medicamentos",
-      "descripcion": "Tratamiento vigente, horarios, alergias y nivel de severidad.",
-      "resumen": "Todo lo que tomas, cómo y cuándo. Las alergias se muestran primero, con severidad y reacción, para que cualquier profesional pueda actuar con contexto.",
-      "estado": "3 activos",
-      "actualizado": "2026-10-20",
+      "descripcion": "Tratamiento vigente, dosis, frecuencia y receta descargable.",
+      "resumen": "Dieciséis medicamentos activos, con dosis y frecuencia siempre a mano. Sin alergias medicamentosas registradas y con la receta vigente lista para descargar.",
+      "estado": "16 activos",
+      "actualizado": "2026-11-06",
       "numero": "02",
       "heroLine": "Qué tomas, cuándo y por qué.",
       "caption": "Cada dosis tiene un porqué.",
-      "keywords": "medicamentos receta paracetamol ibuprofeno vitamina D omeprazol alergia penicilina polen",
+      "keywords": "medicamentos receta metformina aspirina ácido valproico tamsulosina gabapentina jardiance losartán pregabalina trazodona furosemida espironolactona venlafaxina atorvastatina tramadol risperidona semaglutida",
       "metaTitle": "Medicamentos y alergias",
       "arte": "assets/img/art/medicamentos.svg",
       "url": "medicamentos.html",
@@ -876,17 +882,17 @@
       "id": "afeccion-medicamentos",
       "categoria_id": "medicamentos",
       "titulo": "Tratamiento vigente y alergias",
-      "descripcion": "Revisión de medicamentos activos, indicaciones, horarios y alergias registradas.",
+      "descripcion": "Revisión de los dieciséis medicamentos activos, sus dosis y la ausencia de alergias medicamentosas.",
       "estado": "Vigente",
       "tono": "verde",
       "tipo": "activa",
-      "fecha_diagnostico": "2026-10-20",
+      "fecha_diagnostico": "2026-11-06",
       "medico": "Dra. Valentina Rojas",
       "especialidad": "Medicina general",
       "centro": "Hospital de Referencia (ejemplo)",
       "cie10": null,
-      "actualizado": "2026-10-20",
-      "resumen": "Tres medicamentos activos, todos con indicación precisa y dosis máxima definida. La alergia a penicilina es la única alergia medicamentosa registrada y debe declararse en cada atención.",
+      "actualizado": "2026-11-06",
+      "resumen": "Dieciséis medicamentos activos con indicación vigente y sin alergias a medicamentos registradas. La lista completa queda a mano para cualquier consulta o urgencia.",
       "evolucion": [
         {
           "fecha": "2025-11-02",
@@ -905,11 +911,17 @@
           "titulo": "Revisión actual",
           "hallazgo": "Tratamiento vigente y buena tolerancia.",
           "accion": "Mantener indicaciones; control en seis meses."
+        },
+        {
+          "fecha": "2026-11-06",
+          "titulo": "Actualización del tratamiento",
+          "hallazgo": "Se actualiza la lista a dieciséis medicamentos activos; sin alergias medicamentosas.",
+          "accion": "Mantener indicaciones vigentes; control según receta."
         }
       ],
       "notas": [
-        "Informar la alergia a penicilina antes de cualquier antibiótico.",
-        "No usar ibuprofeno por más de tres días seguidos sin control médico.",
+        "Informar que no hay alergias a medicamentos.",
+        "No suspender ni ajustar dosis sin indicación del profesional tratante.",
         "Mantener los medicamentos fuera del alcance de niños y revisar vencimientos."
       ],
       "relacionados": [
@@ -1061,11 +1073,11 @@
       "afeccion_id": "afeccion-medicamentos",
       "categoria_id": "medicamentos",
       "nombre": "Receta vigente — tratamiento actual",
-      "archivo": "assets/docs/medicamentos-2026-10-20-receta-vigente.pdf",
+      "archivo": "assets/docs/medicamentos-2026-11-06-receta-vigente.pdf",
       "tipo_archivo": "PDF",
-      "fecha": "2026-10-20",
+      "fecha": "2026-11-06",
       "tamano": "1 pág.",
-      "descripcion": "Medicamentos activos, dosis y duración."
+      "descripcion": "Dieciséis medicamentos activos, dosis y frecuencia."
     },
     {
       "id": "doc-lab-lipidico",
@@ -1235,115 +1247,286 @@
   ],
   "medicamentos": [
     {
-      "id": "med-paracetamol",
-      "nombre": "Paracetamol",
-      "dosis": "500 mg",
-      "frecuencia": "Cada 8 horas si hay dolor",
+      "id": "med-metformina",
+      "nombre": "Metformina",
+      "dosis": "850 mg",
+      "frecuencia": "Cada 8 horas",
       "via": "Oral",
-      "horario": "Según necesidad",
-      "inicio": "2024-08-14",
+      "horario": "",
+      "inicio": null,
       "fin": null,
       "activo": true,
-      "indicacion": "Dolor lumbar y musculoesquelético",
-      "maximo": "Máximo 3 g al día",
-      "notas": "No combinar con otro producto que contenga paracetamol."
+      "indicacion": "",
+      "maximo": "",
+      "notas": ""
     },
     {
-      "id": "med-ibuprofeno",
-      "nombre": "Ibuprofeno",
-      "dosis": "400 mg",
-      "frecuencia": "Cada 8 horas con alimentos",
+      "id": "med-aspirina",
+      "nombre": "Aspirina",
+      "dosis": "100 mg",
+      "frecuencia": "Cada 24 horas",
       "via": "Oral",
-      "horario": "Según necesidad",
-      "inicio": "2025-05-06",
+      "horario": "",
+      "inicio": null,
       "fin": null,
       "activo": true,
-      "indicacion": "Dolor inflamatorio del hombro o la mano",
-      "maximo": "Máximo 3 días seguidos sin control",
-      "notas": "Tomar con alimentos. Evitar si hay dolor gástrico."
+      "indicacion": "",
+      "maximo": "",
+      "notas": ""
     },
     {
-      "id": "med-vitamina-d",
-      "nombre": "Vitamina D",
-      "dosis": "1000 UI",
-      "frecuencia": "Una vez al día",
+      "id": "med-acido-valproico",
+      "nombre": "Ácido valproico",
+      "dosis": "250 mg",
+      "frecuencia": "Cada 8 horas",
       "via": "Oral",
-      "horario": "Con el desayuno",
-      "inicio": "2025-11-02",
+      "horario": "",
+      "inicio": null,
       "fin": null,
       "activo": true,
-      "indicacion": "Vitamina D baja (24 ng/mL)",
-      "maximo": "Según indicación médica",
-      "notas": "Reevaluar niveles en el próximo control de laboratorio."
+      "indicacion": "",
+      "maximo": "",
+      "notas": ""
     },
     {
-      "id": "med-omeprazol",
-      "nombre": "Omeprazol",
+      "id": "med-tamsulosina",
+      "nombre": "Tamsulosina",
+      "dosis": "0,4 mg",
+      "frecuencia": "Cada 24 horas",
+      "via": "Oral",
+      "horario": "",
+      "inicio": null,
+      "fin": null,
+      "activo": true,
+      "indicacion": "",
+      "maximo": "",
+      "notas": ""
+    },
+    {
+      "id": "med-gabapentina",
+      "nombre": "Gabapentina",
+      "dosis": "300 mg",
+      "frecuencia": "Cada 24 horas",
+      "via": "Oral",
+      "horario": "",
+      "inicio": null,
+      "fin": null,
+      "activo": true,
+      "indicacion": "",
+      "maximo": "",
+      "notas": ""
+    },
+    {
+      "id": "med-jardiance",
+      "nombre": "Jardiance",
+      "dosis": "25 mg",
+      "frecuencia": "Cada 24 horas",
+      "via": "Oral",
+      "horario": "",
+      "inicio": null,
+      "fin": null,
+      "activo": true,
+      "indicacion": "",
+      "maximo": "",
+      "notas": ""
+    },
+    {
+      "id": "med-losartan",
+      "nombre": "Losartán",
+      "dosis": "50 mg (½ comprimido)",
+      "frecuencia": "Cada 24 horas",
+      "via": "Oral",
+      "horario": "",
+      "inicio": null,
+      "fin": null,
+      "activo": true,
+      "indicacion": "",
+      "maximo": "",
+      "notas": ""
+    },
+    {
+      "id": "med-pregabalina",
+      "nombre": "Pregabalina",
+      "dosis": "75 mg",
+      "frecuencia": "Cada 12 horas",
+      "via": "Oral",
+      "horario": "",
+      "inicio": null,
+      "fin": null,
+      "activo": true,
+      "indicacion": "",
+      "maximo": "",
+      "notas": ""
+    },
+    {
+      "id": "med-trazodona",
+      "nombre": "Trazodona",
+      "dosis": "25 mg",
+      "frecuencia": "Cada 24 horas",
+      "via": "Oral",
+      "horario": "",
+      "inicio": null,
+      "fin": null,
+      "activo": true,
+      "indicacion": "",
+      "maximo": "",
+      "notas": ""
+    },
+    {
+      "id": "med-furosemida",
+      "nombre": "Furosemida",
+      "dosis": "40 mg (½ comprimido)",
+      "frecuencia": "Cada 24 horas",
+      "via": "Oral",
+      "horario": "",
+      "inicio": null,
+      "fin": null,
+      "activo": true,
+      "indicacion": "",
+      "maximo": "",
+      "notas": ""
+    },
+    {
+      "id": "med-espironolactona",
+      "nombre": "Espironolactona",
+      "dosis": "25 mg (½ comprimido)",
+      "frecuencia": "Cada 24 horas",
+      "via": "Oral",
+      "horario": "",
+      "inicio": null,
+      "fin": null,
+      "activo": true,
+      "indicacion": "",
+      "maximo": "",
+      "notas": ""
+    },
+    {
+      "id": "med-venlafaxina",
+      "nombre": "Venlafaxina",
+      "dosis": "75 mg (3 comprimidos)",
+      "frecuencia": "Cada 24 horas",
+      "via": "Oral",
+      "horario": "",
+      "inicio": null,
+      "fin": null,
+      "activo": true,
+      "indicacion": "",
+      "maximo": "",
+      "notas": ""
+    },
+    {
+      "id": "med-atorvastatina",
+      "nombre": "Atorvastatina",
       "dosis": "20 mg",
-      "frecuencia": "Una vez al día en ayunas",
+      "frecuencia": "Cada 24 horas",
       "via": "Oral",
-      "horario": "Mañana",
-      "inicio": "2023-04-18",
-      "fin": "2026-09-15",
-      "activo": false,
-      "indicacion": "Gastritis funcional (histórico)",
-      "maximo": "14 días",
-      "notas": "Suspendido por buena evolución; usar solo si hay síntomas."
-    }
-  ],
-  "alergias": [
-    {
-      "id": "alergia-penicilina",
-      "sustancia": "Penicilina",
-      "severidad": "Moderada",
-      "tono": "coral",
-      "reaccion": "Urticaria y picazón",
-      "fecha_registro": "2019-06-12",
-      "notas": "Evitar penicilina y derivados. Informar en cada atención médica."
+      "horario": "",
+      "inicio": null,
+      "fin": null,
+      "activo": true,
+      "indicacion": "",
+      "maximo": "",
+      "notas": ""
     },
     {
-      "id": "alergia-polen",
-      "sustancia": "Polen",
-      "severidad": "Leve",
-      "tono": "ambar",
-      "reaccion": "Rinorrea y estornudos estacionales",
-      "fecha_registro": "2022-10-04",
-      "notas": "Manejo ambiental; antihistamínico solo si hay síntomas."
+      "id": "med-tramadol",
+      "nombre": "Tramadol",
+      "dosis": "100 mg/ml · 10 gotas",
+      "frecuencia": "Cada 8 horas",
+      "via": "Oral",
+      "horario": "",
+      "inicio": null,
+      "fin": null,
+      "activo": true,
+      "indicacion": "",
+      "maximo": "",
+      "notas": ""
+    },
+    {
+      "id": "med-risperidona",
+      "nombre": "Risperidona",
+      "dosis": "1 mg/ml · 5 gotas",
+      "frecuencia": "Cada 12 horas",
+      "via": "Oral",
+      "horario": "",
+      "inicio": null,
+      "fin": null,
+      "activo": true,
+      "indicacion": "",
+      "maximo": "",
+      "notas": ""
+    },
+    {
+      "id": "med-semaglutida",
+      "nombre": "Semaglutida",
+      "dosis": "0,5 mg",
+      "frecuencia": "Cada 7 días",
+      "via": "Oral",
+      "horario": "",
+      "inicio": null,
+      "fin": null,
+      "activo": true,
+      "indicacion": "",
+      "maximo": "",
+      "notas": ""
     }
   ],
+  "alergias": [],
   "contactos": [
     {
-      "id": "contacto-principal",
-      "nombre": "Contacto familiar principal",
-      "relacion": "Familiar directo",
-      "telefono": "+56 9 0000 0001",
+      "id": "contacto-allan",
+      "nombre": "Allan",
+      "relacion": "Hijo",
+      "telefono": "+56 9 7188 8887",
       "tipo_contacto": "Familiar",
       "principal": true,
       "orden": 1,
-      "nota": "Llamar primero en una urgencia no médica.",
+      "nota": "Llamar primero en una urgencia.",
       "icono": "users"
     },
     {
-      "id": "contacto-medico",
-      "nombre": "Dra. Valentina Rojas",
-      "relacion": "Médica de cabecera",
-      "telefono": "+56 9 0000 0002",
-      "tipo_contacto": "Médico tratante",
+      "id": "contacto-nicholas",
+      "nombre": "Nicholas",
+      "relacion": "Hijo",
+      "telefono": "+56 9 7850 2717",
+      "tipo_contacto": "Familiar",
       "principal": false,
       "orden": 2,
-      "nota": "Consultas de seguimiento y coordinación.",
-      "icono": "stethoscope"
+      "nota": "Segundo contacto.",
+      "icono": "users"
     },
     {
-      "id": "contacto-centro",
-      "nombre": "Hospital de Referencia (ejemplo)",
-      "relacion": "Centro de salud",
-      "telefono": "+56 2 0000 0000",
-      "tipo_contacto": "Centro asistencial",
+      "id": "contacto-luis",
+      "nombre": "Luis",
+      "relacion": "Cuñado",
+      "telefono": "+56 9 9827 1956",
+      "tipo_contacto": "Familiar",
       "principal": false,
       "orden": 3,
-      "nota": "Urgencias y hospitalizaciones.",
-      "icono": "hospital"
+      "nota": "Contacto de respaldo.",
+      "icono": "users"
+    },
+    {
+      "id": "contacto-maria",
+      "nombre": "María",
+      "relacion": "Mamá",
+      "telefono": "+56 9 7326 0581",
+      "tipo_contacto": "Familiar",
+      "principal": false,
+      "orden": 4,
+      "nota": "Contacto de respaldo.",
+      "icono": "users"
+    },
+    {
+      "id": "contacto-paolo",
+      "nombre": "Paolo",
+      "relacion": "Hermano",
+      "telefono": "+56 9 3687 0168",
+      "tipo_contacto": "Familiar",
+      "principal": false,
+      "orden": 5,
+      "nota": "Contacto de respaldo.",
+      "icono": "users"
     },
     {
       "id": "contacto-samu",
@@ -1352,7 +1535,7 @@
       "telefono": "131",
       "tipo_contacto": "Emergencia pública",
       "principal": false,
-      "orden": 4,
+      "orden": 6,
       "nota": "Emergencia médica con riesgo vital.",
       "icono": "ambulance"
     },
@@ -1363,7 +1546,7 @@
       "telefono": "133",
       "tipo_contacto": "Emergencia pública",
       "principal": false,
-      "orden": 5,
+      "orden": 7,
       "nota": "Emergencias policiales.",
       "icono": "shield"
     },
@@ -1374,20 +1557,9 @@
       "telefono": "132",
       "tipo_contacto": "Emergencia pública",
       "principal": false,
-      "orden": 6,
+      "orden": 8,
       "nota": "Incendios, rescate y emergencias con fuego.",
       "icono": "flame"
-    },
-    {
-      "id": "contacto-salud-responde",
-      "nombre": "Salud Responde",
-      "relacion": "Orientación en salud",
-      "telefono": "600 360 7777",
-      "tipo_contacto": "Orientación",
-      "principal": false,
-      "orden": 7,
-      "nota": "Consultas de salud no urgentes, 24/7.",
-      "icono": "phone"
     }
   ],
   "laboratorio": [
@@ -1545,6 +1717,16 @@
     "especialidades": 8,
     "documentos": 18,
     "diagnosticos": 13,
-    "medicamentos_activos": 3
-  }
+    "medicamentos_activos": 16
+  },
+  "operaciones": [
+    {
+      "id": "op-criptorquidia",
+      "nombre": "Criptorquidia"
+    },
+    {
+      "id": "op-tunel-carpiano",
+      "nombre": "Túnel carpiano en ambas manos"
+    }
+  ]
 }

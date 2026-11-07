@@ -9,3 +9,6 @@ _SDD_*
 
 # Registros
 *.log
+
+# QA local (capturas y scripts de verificación)
+tools/qa/

@@ -110,7 +110,7 @@
   .content-section { padding: 2rem 0; }
   .summary-card { padding: 1.2rem; border-radius: 24px; }
   .summary-card__quote { font-size: 1.08rem; }
-  .fact-grid, .allergy-grid, .med-grid { grid-template-columns: 1fr; }
+  .fact-grid, .allergy-grid, .med-grid, .op-grid { grid-template-columns: 1fr; }
   .related-grid { grid-template-columns: 1fr; }
   .related-card { display: grid; grid-template-columns: 110px 1fr; }
   .related-card__media { aspect-ratio: auto; height: 100%; }

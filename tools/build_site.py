@@ -34,6 +34,7 @@ CONTACTOS = sorted(DATA["contactos"], key=lambda item: item["orden"])
 LABORATORIO = DATA["laboratorio"]
 PRINCIPIOS = DATA["principios"]
 RESUMEN = DATA["resumen_sitio"]
+OPERACIONES = DATA.get("operaciones", [])
 
 MONTHS = [
     "enero", "febrero", "marzo", "abril", "mayo", "junio",
@@ -87,6 +88,7 @@ ICONS = {
     "brain": '<path d="M9.5 3A2.5 2.5 0 0 0 7 5.5v.2A3.2 3.2 0 0 0 5 11a3.2 3.2 0 0 0 1.2 4.8A3.2 3.2 0 0 0 9 21a3 3 0 0 0 4-2.8V5.5A2.5 2.5 0 0 0 9.5 3Z"/><path d="M14.5 3A2.5 2.5 0 0 1 17 5.5v.2a3.2 3.2 0 0 1 2 5.3 3.2 3.2 0 0 1-1.2 4.8A3.2 3.2 0 0 1 15 21a3 3 0 0 1-4-2.8"/><path d="M9 8.5h1.5M13.5 9H15M9 14h1.5M13.5 14H15"/>',
     "heart-pulse": '<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21.3l7.8-7.8 1.1-1.1a5.5 5.5 0 0 0 0-7.8Z"/><path d="M4.2 12h3.4l1.5-3.2 2.5 5.8 1.5-2.6h3.4"/>',
     "activity": '<path d="M3 12h4l3-9 4 18 3-9h4"/>',
+    "scissors": '<circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4 8.12 15.88M14.47 14.48 20 20M8.12 8.12 12 12"/>',
     "dumbbell": '<path d="M6 5v14M18 5v14M3 8v8M21 8v8M6 12h12"/>',
     "message-wave": '<path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.5 8.5 8.5 0 0 1-3.8-.9L3 21l1.6-4.3A8.5 8.5 0 1 1 21 11.5Z"/><path d="M8 10h.5M11.8 10h.5M15.6 10h.5" stroke-width="2.2"/>',
     "mind": '<path d="M14.5 21v-3.5H17a2 2 0 0 0 2-2v-1.8A7.5 7.5 0 1 0 5.2 10a5 5 0 0 0 1.6 10h1.7v1"/><path d="M9 8h.5M12.5 8h.5M9 12h.5M12.5 12h.5"/>',
@@ -637,7 +639,7 @@ def render_page(
     </div>"""
     print_footer = """
     <div class="print-footer">
-      Documento generado desde saludrcartes. Los datos de contacto son de ejemplo y deben confirmarse antes de una urgencia.
+      Documento generado desde saludrcartes. Ante una emergencia, llama primero al 131.
     </div>"""
     return (
         page_head(
@@ -758,6 +760,13 @@ def home_page() -> str:
         for index, item in enumerate(PRINCIPIOS, 1)
     )
     art = "assets/img/art/inicio.svg"
+    if ALERGIAS:
+        allergy_label = ALERGIAS[0]["sustancia"]
+        hero_allergy_chip = chip("alert-triangle", "Alergia registrada", allergy_label, "br")
+        banner_allergy = f'<span>{icon("alert-triangle")} Alergia a {esc(allergy_label)}</span>'
+    else:
+        hero_allergy_chip = chip("check-circle", "Alergias", "Sin alergias medicamentosas", "br")
+        banner_allergy = f'<span>{icon("check-circle")} Sin alergias a medicamentos</span>'
     main = f"""
   <header class="hero hero--home">
     <div class="shell hero__grid">
@@ -791,7 +800,7 @@ def home_page() -> str:
         "Ilustración cálida de un amanecer, hojas y una ficha clínica",
         "Registro personal · 2026",
         chip("droplet", "Grupo sanguíneo", PERFIL["grupoSanguineo"], "tl")
-        + chip("alert-triangle", "Alergia registrada", ALERGIAS[0]["sustancia"], "br"),
+        + hero_allergy_chip,
       )}
     </div>
   </header>
@@ -834,7 +843,7 @@ def home_page() -> str:
           <p>Grupo sanguíneo, alergias, condiciones y contactos con llamada directa en una sola ficha. Sin menús, sin login, sin vueltas.</p>
           <div class="emergency-banner__chips">
             <span>{icon("droplet")} {esc(PERFIL['grupoSanguineo'])}</span>
-            <span>{icon("alert-triangle")} Alergia a {esc(ALERGIAS[0]['sustancia'])}</span>
+            {banner_allergy}
             <span>{icon("phone")} SAMU 131</span>
           </div>
           <div class="emergency-banner__actions">
@@ -1175,6 +1184,29 @@ def build_diagnosticos() -> str:
         ("Última actualización", time_tag(cat["actualizado"])),
     ]
     conditions_html = "".join(condition_block(item) for item in cats_conditions)
+    operation_cards = "".join(
+        f"""
+        <article class="op-card">
+          <span class="op-card__icon">{icon("scissors")}</span>
+          <div>
+            <h3>{esc(op['nombre'])}</h3>
+            <p>Intervención quirúrgica registrada en la historia clínica.</p>
+          </div>
+        </article>"""
+        for op in OPERACIONES
+    )
+    operations_section = ""
+    if OPERACIONES:
+        operations_section = f"""
+      <section class="content-section" id="operaciones">
+        <p class="section-label">Historia quirúrgica</p>
+        <div class="content-section__head">
+          <div><h2>Operaciones <em>registradas.</em></h2><p>Intervenciones que forman parte de la historia clínica.</p></div>
+          <span class="content-section__count">{icon("scissors")} {len(OPERACIONES)} intervenciones</span>
+        </div>
+        <div class="op-grid">{operation_cards}</div>
+      </section>
+"""
     notes = unique(
         [note for item in cats_conditions for note in item["notas"]]
         + CRITICO["notas"]
@@ -1182,7 +1214,7 @@ def build_diagnosticos() -> str:
     main = f"""
   {detail_hero(cat, AFECCIONES, all_docs)}
   <div class="shell detail">
-    {rail([("resumen", "Resumen"), ("condiciones", "Todas las condiciones"), ("seguimiento", "Seguimiento"), ("documentos", "Documentos"), ("notas", "Notas"), ("relacionado", "Relacionado")])}
+    {rail([("resumen", "Resumen"), ("condiciones", "Todas las condiciones"), ("operaciones", "Operaciones"), ("seguimiento", "Seguimiento"), ("documentos", "Documentos"), ("notas", "Notas"), ("relacionado", "Relacionado")])}
     <div class="detail-content">
       {summary_section(cat=cat, quote=cat["resumen"], facts=fact_items, conditions=AFECCIONES, docs=all_docs, updated=cat["actualizado"])}
 
@@ -1209,6 +1241,8 @@ def build_diagnosticos() -> str:
         </div>
         <div class="editorial-note">{icon("info")} <span><strong>Lectura rápida:</strong> “Activa” significa que sigue en control; “histórica” que ya está resuelta. El estado clínico se muestra siempre con texto, no solo con color.</span></div>
       </section>
+
+      {operations_section}
 
       <section class="content-section" id="seguimiento">
         <p class="section-label">Seguimiento</p>
@@ -1245,12 +1279,36 @@ def build_medicamentos() -> str:
     inactive_meds = [med for med in MEDICAMENTOS if not med["activo"]]
     active_cards = "".join(medication_card(med) for med in active_meds)
     inactive_cards = "".join(medication_card(med) for med in inactive_meds)
-    allergy_cards = "".join(allergy_card(allergy) for allergy in ALERGIAS)
-    primary_allergy = ALERGIAS[0]
+    receta = next((doc for doc in docs if doc["id"] == "doc-med-receta"), None)
+    receta_date = receta["fecha"] if receta else cat["actualizado"]
+    if ALERGIAS:
+        primary_allergy = ALERGIAS[0]
+        allergy_content = f"""
+        <div class="allergy-alert">
+          <span class="allergy-alert__icon">{icon("alert-triangle")}</span>
+          <div>
+            <h3>{esc(primary_allergy['sustancia'])} · {esc(primary_allergy['severidad'])}</h3>
+            <p>{esc(primary_allergy['notas'])} Reacción registrada: {esc(primary_allergy['reaccion'])}.</p>
+          </div>
+        </div>
+        <div class="allergy-grid">{''.join(allergy_card(allergy) for allergy in ALERGIAS)}</div>"""
+        allergy_count = f"{len(ALERGIAS)} alertas"
+        allergy_icon = icon("alert-triangle")
+    else:
+        allergy_content = f"""
+        <div class="allergy-clear">
+          <span class="allergy-clear__icon">{icon("check-circle")}</span>
+          <div>
+            <h3>Sin alergias a medicamentos</h3>
+            <p>No hay alergias medicamentosas registradas. Esta información debe confirmarse en cada atención y quedar visible antes de cualquier receta.</p>
+          </div>
+        </div>"""
+        allergy_count = "Sin alertas"
+        allergy_icon = icon("check-circle")
     fact_items = [
         ("Medicamentos activos", f"{len(active_meds)}"),
         ("Alergias registradas", f"{len(ALERGIAS)}"),
-        ("Receta vigente", time_tag("2026-10-20")),
+        ("Receta vigente", time_tag(receta_date)),
         ("Profesional", esc(condition["medico"])),
         ("Centro", esc(condition["centro"])),
         ("Actualizado", time_tag(cat["actualizado"])),
@@ -1266,17 +1324,10 @@ def build_medicamentos() -> str:
       <section class="content-section" id="alergias">
         <p class="section-label">Seguridad primero</p>
         <div class="content-section__head">
-          <div><h2>Alergias <em>registradas.</em></h2><p>Información que debe decirse en voz alta antes de cualquier receta.</p></div>
-          <span class="content-section__count">{icon("alert-triangle")} {len(ALERGIAS)} alertas</span>
+          <div><h2>Alergias <em>medicamentosas.</em></h2><p>Información que debe decirse en voz alta antes de cualquier receta.</p></div>
+          <span class="content-section__count">{allergy_icon} {allergy_count}</span>
         </div>
-        <div class="allergy-alert">
-          <span class="allergy-alert__icon">{icon("alert-triangle")}</span>
-          <div>
-            <h3>{esc(primary_allergy['sustancia'])} · {esc(primary_allergy['severidad'])}</h3>
-            <p>{esc(primary_allergy['notas'])} Reacción registrada: {esc(primary_allergy['reaccion'])}.</p>
-          </div>
-        </div>
-        <div class="allergy-grid">{allergy_cards}</div>
+        {allergy_content}
       </section>
 
       <section class="content-section" id="medicamentos">
@@ -1312,6 +1363,18 @@ def build_medicamentos() -> str:
 def medication_card(med: dict) -> str:
     active = med["activo"]
     note = med.get("notas") or ""
+    rows = [("Frecuencia", esc(med["frecuencia"]))]
+    if med.get("horario"):
+        rows.append(("Horario", esc(med["horario"])))
+    if med.get("indicacion"):
+        rows.append(("Indicación", esc(med["indicacion"])))
+    if med.get("maximo"):
+        rows.append(("Máximo", esc(med["maximo"])))
+    if med.get("inicio"):
+        rows.append(("Desde", time_tag(med["inicio"])))
+    if med.get("fin"):
+        rows.append(("Hasta", time_tag(med["fin"])))
+    rows_html = "".join(f"<div><dt>{label}</dt><dd>{value}</dd></div>" for label, value in rows)
     return f"""
       <article class="med-card{' med-card--off' if not active else ''}">
         <div class="med-card__top">
@@ -1321,12 +1384,7 @@ def medication_card(med: dict) -> str:
         <h3>{esc(med['nombre'])}</h3>
         <p class="med-card__dose">{esc(med['dosis'])} · {esc(med['via'])}</p>
         <dl class="med-card__list">
-          <div><dt>Frecuencia</dt><dd>{esc(med['frecuencia'])}</dd></div>
-          <div><dt>Horario</dt><dd>{esc(med['horario'])}</dd></div>
-          <div><dt>Indicación</dt><dd>{esc(med['indicacion'])}</dd></div>
-          <div><dt>Máximo</dt><dd>{esc(med['maximo'])}</dd></div>
-          <div><dt>Desde</dt><dd>{time_tag(med['inicio'])}</dd></div>
-          {f'<div><dt>Hasta</dt><dd>{time_tag(med["fin"])}</dd></div>' if med.get("fin") else ''}
+          {rows_html}
         </dl>
         {f'<p class="med-card__note">{esc(note)}</p>' if note else ''}
       </article>"""
@@ -1514,7 +1572,13 @@ def emergency_page() -> str:
         f'<li>{icon("alert-triangle")} {esc(item["sustancia"])} · {esc(item["severidad"])}: {esc(item["reaccion"])}</li>'
         for item in CRITICO["alergias"]
     )
+    if not CRITICO["alergias"]:
+        allergy_items = f'<li>{icon("check-circle")} Sin alergias a medicamentos conocidas.</li>'
     crit_meds = "".join(f'<li>{icon("pill")} {esc(med)}</li>' for med in CRITICO["medicamentos"])
+    operations_block = ""
+    if OPERACIONES:
+        operations_list = "".join(f'<li>{icon("scissors")} {esc(op["nombre"])}</li>' for op in OPERACIONES)
+        operations_block = f'<div class="critical-block"><h2>{icon("scissors")} Operaciones</h2><ul>{operations_list}</ul></div>'
     main = f"""
   <section class="ep-hero">
     <div class="shell">
@@ -1551,6 +1615,7 @@ def emergency_page() -> str:
             <h2>{icon("heart-pulse")} Condiciones</h2>
             <ul>{conditions_list}</ul>
           </div>
+          {operations_block}
           <div class="critical-block">
             <h2>{icon("pill")} Medicamentos</h2>
             <ul>{crit_meds}</ul>
@@ -1567,7 +1632,7 @@ def emergency_page() -> str:
           <p class="eyebrow">Contactos</p>
           <h2 class="ep-title">Una llamada, <em>sin buscar.</em></h2>
         </div>
-        <p>Primero el círculo cercano y el equipo tratante. A la derecha, los números públicos de emergencia en Chile.</p>
+        <p>Primero el círculo cercano, en orden de prioridad. A la derecha, los números públicos de emergencia en Chile.</p>
       </div>
       <div class="contact-grid">
         <div class="contact-list">{private_cards}</div>
@@ -1598,7 +1663,7 @@ def emergency_page() -> str:
         <div class="ep-panel" data-reveal>
           <h3 class="ep-panel__title">{icon("heart")} Notas para la atención</h3>
           <ul>{notes_list}</ul>
-          <p class="ep-panel__note">Datos de contacto de ejemplo: reemplazar por teléfonos reales antes de usar esta ficha.</p>
+          <p class="ep-panel__note">Teléfonos entregados por el titular. Confirmar su vigencia periódicamente.</p>
         </div>
       </div>
       <div class="ep-panel" style="margin-top:.9rem" data-reveal>
@@ -1803,6 +1868,12 @@ def build_netlify() -> str:
     return """[build]
   publish = "."
 
+# La portada es #/; sin hash debe servir el mismo contenido.
+[[redirects]]
+  from = "/"
+  to = "/#/"
+  status = 200
+
 # URL corta para compartir la ficha pública de emergencia.
 [[redirects]]
   from = "/emergencia"
@@ -1830,7 +1901,7 @@ def build_readme() -> str:
 
 Registro clínico personal de **{PERFIL['nombre']}**, construido como sitio estático de 13 páginas. El objetivo es que cualquier persona —Roberto, su familia o un equipo de salud— encuentre en segundos lo que necesita, incluso en una urgencia.
 
-> Los datos de contacto y el centro asistencial son de ejemplo. Reemplázalos por información real antes de usar la ficha de emergencia.
+> Los teléfonos de contacto fueron entregados por el titular. El centro asistencial aún no está confirmado y debe verificarse antes de una urgencia.
 
 ## Páginas
 

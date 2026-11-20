@@ -1,0 +1,100 @@
+/* ==========================================================================
+   Document detail sheets (doc-<slug>.html)
+   ========================================================================== */
+
+.doc-sheet__hero {
+  position: relative;
+  z-index: 2;
+}
+
+.doc-sheet__breadcrumb {
+  margin-bottom: 1.2rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+}
+
+.doc-sheet__breadcrumb a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 30px;
+  color: var(--ink-2);
+}
+
+.doc-sheet__breadcrumb a:hover { color: var(--accent-deep); }
+
+.doc-sheet__badge {
+  opacity: 0.4;
+}
+
+.doc-preview-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: #fff;
+  box-shadow: var(--shadow-sm);
+}
+
+.doc-preview-card__iframe {
+  width: 100%;
+  height: clamp(500px, 60vh, 800px);
+  border: 0;
+  background: #e9e4dc;
+  display: block;
+}
+
+.doc-preview-card__actions {
+  padding: 1rem 1.25rem;
+  background: var(--panel-bg);
+  display: flex;
+  gap: 0.75rem;
+}
+
+.doc-preview-card__actions .btn { flex: 1; }
+
+.doc-sheet__fact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.transcripcion {
+  background: var(--panel-bg);
+  border-left: 3px solid var(--accent);
+  padding: 1.25rem;
+  border-radius: var(--radius);
+  margin-top: 1.5rem;
+}
+
+.transcripcion__note {
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+}
+
+.transcripcion pre {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--ink);
+  font-family: var(--font-mono, var(--font-body));
+}
+
+.doc-sheet__hero .page-hero__copy {
+  max-width: 64ch;
+}

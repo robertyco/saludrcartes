@@ -16,10 +16,15 @@ Registro clínico personal de **Roberto Carlos Cartes Jiménez**, construido com
 | `cardiologia.html` | Cardiología | Especialidades médicas |
 | `fisiatria.html` | Fisiatría | Especialidades médicas |
 | `rehabilitacion.html` | Rehabilitación | Especialidades médicas |
-| `fonoaudiologia.html` | Fonoaudiología | Especialidades médicas |
 | `psiquiatria.html` | Psiquiatría | Especialidades médicas |
 | `traumatologia-superior.html` | Traumatología superior | Especialidades médicas |
 | `traumatologia-inferior.html` | Traumatología inferior | Especialidades médicas |
+| `denuncias.html` | Denuncias | Expediente y respaldo |
+| `transparencia.html` | Transparencia | Expediente y respaldo |
+| `superintendencia.html` | Superintendencia | Expediente y respaldo |
+| `tribunales.html` | Tribunales | Expediente y respaldo |
+| `discapacidad.html` | Discapacidad | Expediente y respaldo |
+| `cartas.html` | Cartas | Expediente y respaldo |
 | `emergencia.html` | Contactos de emergencia | Emergencia |
 
 Además: `emergencia.html` (ficha pública, sin login) y `404.html`.

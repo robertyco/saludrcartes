@@ -20,6 +20,9 @@ ROOT = Path(__file__).resolve().parent.parent
 DATA_PATH = ROOT / "data" / "registro.json"
 DATA = json.loads(DATA_PATH.read_text(encoding="utf-8"))
 
+EXPEDIENTE_PATH = ROOT / "data" / "expediente.json"
+EXPEDIENTE = json.loads(EXPEDIENTE_PATH.read_text(encoding="utf-8")) if EXPEDIENTE_PATH.exists() else {"documentos": []}
+
 SITE = DATA["sitio"]
 PERFIL = DATA["perfil"]
 CRITICO = DATA["critico"]
@@ -27,7 +30,7 @@ GRUPOS = {group["id"]: group for group in DATA["grupos"]}
 CATEGORIAS = {cat["id"]: cat for cat in DATA["categorias"]}
 CATEGORIAS_ORDER = sorted(DATA["categorias"], key=lambda item: item["orden"])
 AFECCIONES = DATA["afecciones"]
-DOCS = DATA["documentos"]
+DOCS = (DATA.get("documentos") or []) + (EXPEDIENTE.get("documentos") or [])
 MEDICAMENTOS = DATA["medicamentos"]
 ALERGIAS = DATA["alergias"]
 CONTACTOS = sorted(DATA["contactos"], key=lambda item: item["orden"])
@@ -44,6 +47,7 @@ MONTHS_SHORT = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sept", 
 
 EMERGENCY_DOC = {
     "id": "doc-emergencia-ficha",
+    "slug": "emergencia-ficha-resumen",
     "afeccion_id": "afeccion-emergencia",
     "categoria_id": "emergencia",
     "nombre": "Ficha de emergencia — resumen clínico",
@@ -54,6 +58,9 @@ EMERGENCY_DOC = {
     "descripcion": "Diagnósticos, alergias, medicamentos y contactos en una hoja imprimible.",
 }
 DOCS_ALL = DOCS + [EMERGENCY_DOC]
+# Asegurar que DOCS_ALL sea lista
+if not isinstance(DOCS_ALL, list):
+    DOCS_ALL = list(DOCS_ALL)
 DOCS_BY_CAT: dict[str, list[dict]] = {}
 for _doc in DOCS_ALL:
     DOCS_BY_CAT.setdefault(_doc["categoria_id"], []).append(_doc)
@@ -262,7 +269,7 @@ def total_documents() -> int:
 # ---------------------------------------------------------------------------
 def document_card(doc: dict, show_category: bool = False) -> str:
     cat = CATEGORIAS.get(doc["categoria_id"])
-    meta = [fecha_short(doc["fecha"]), doc["tamano"]]
+    meta = [fecha_short(doc.get("fecha") or ""), doc.get("tamano", "—")]
     if show_category and cat:
         meta.insert(0, cat["navLabel"])
     meta_text = " · ".join(esc(part) for part in meta)
@@ -371,6 +378,7 @@ def sheet_index() -> str:
     links_registro = "".join(index_link(cat) for cat in CATEGORIAS_ORDER if cat["grupo"] == "registro")
     links_especialidades = "".join(index_link(cat) for cat in CATEGORIAS_ORDER if cat["grupo"] == "especialidades")
     links_emergencia = "".join(index_link(cat) for cat in CATEGORIAS_ORDER if cat["grupo"] == "emergencia")
+    links_expediente = "".join(index_link(cat) for cat in CATEGORIAS_ORDER if cat["grupo"] == "expediente")
     return f"""
   <section class="sheet" data-sheet="index" aria-hidden="true" aria-labelledby="index-title" inert>
     <button type="button" class="sheet__backdrop" data-close-sheet tabindex="-1" aria-label="Cerrar el índice"></button>
@@ -401,6 +409,10 @@ def sheet_index() -> str:
           <div class="index-group">
             <p class="index-group__title">Emergencia</p>
             {links_emergencia}
+          </div>
+          <div class="index-group">
+            <p class="index-group__title">Expediente</p>
+            {links_expediente}
           </div>
           {preferences_panel()}
         </div>
@@ -742,7 +754,7 @@ def home_page() -> str:
     registro = [cat for cat in CATEGORIAS_ORDER if cat["grupo"] == "registro"]
     especialidades = [cat for cat in CATEGORIAS_ORDER if cat["grupo"] == "especialidades"]
     emergency_cat = next(cat for cat in CATEGORIAS_ORDER if cat["grupo"] == "emergencia")
-    recent_docs = sorted(DOCS, key=lambda doc: doc["fecha"], reverse=True)[:4]
+    recent_docs = sorted(DOCS, key=lambda doc: str(doc["fecha"] or ""), reverse=True)[:4]
     marquee_items = [
         "Diagnósticos", "Medicamentos", "Laboratorio", "Neurología", "Cardiología",
         "Fisiatría", "Rehabilitación", "Fonoaudiología", "Psiquiatría",
@@ -753,7 +765,7 @@ def home_page() -> str:
         f"""
         <div class="principle" data-reveal>
           <span class="principle__num">0{index}</span>
-          <span class="principle__icon">{icon(item['icono'])}</span>
+          <span class="principle__icon">{icon(item.get('icono') or 'info')}</span>
           <h3>{esc(item['titulo'])}</h3>
           <p>{esc(item['texto'])}</p>
         </div>"""
@@ -911,7 +923,13 @@ def home_page() -> str:
 # ---------------------------------------------------------------------------
 def breadcrumb(cat: dict) -> str:
     group = group_of(cat)
-    anchor = "registro" if cat["grupo"] == "registro" else "especialidades"
+    anchor_map = {
+        "registro": "registro",
+        "especialidades": "especialidades",
+        "expediente": "expediente",
+        "emergencia": "emergencia",
+    }
+    anchor = anchor_map.get(cat["grupo"], "registro")
     return f"""
         <nav class="breadcrumb" aria-label="Camino de navegación">
           <a href="index.html">{icon("home")} Inicio</a>
@@ -964,14 +982,17 @@ def timeline(events: list[dict], label: str) -> str:
         return ""
     items = []
     for event in reversed(events):
+        title = event.get('titulo') or event.get('evento') or 'Evento'
+        finding = event.get('hallazgo') or ''
+        action = event.get('accion') or ''
         items.append(f"""
           <li class="timeline__item">
             <time class="timeline__date" datetime="{esc(event['fecha'])}">{fecha_short(event['fecha'])}<span>{event['fecha'][:4]}</span></time>
             <span class="timeline__dot" aria-hidden="true"></span>
             <div class="timeline__card">
-              <h4 class="timeline__title">{esc(event['titulo'])}</h4>
-              <p class="timeline__finding">{esc(event['hallazgo'])}</p>
-              <p class="timeline__action"><strong>Acción</strong> {esc(event['accion'])}</p>
+              <h4 class="timeline__title">{esc(title)}</h4>
+              {f'<p class="timeline__finding">{esc(finding)}</p>' if finding else ''}
+              {f'<p class="timeline__action"><strong>Acción</strong> {esc(action)}</p>' if action else ''}
             </div>
           </li>""")
     return f'<ol class="timeline" aria-label="{esc(label)}">{"".join(items)}</ol>'
@@ -981,22 +1002,24 @@ def condition_block(afeccion: dict, show_timeline: bool = True) -> str:
     meta = []
     if afeccion.get("cie10"):
         meta.append(f'<span>{icon("clipboard-pulse")} CIE-10 {esc(afeccion["cie10"])}</span>')
-    meta.append(f'<span>{icon("calendar")} Desde {time_tag(afeccion["fecha_diagnostico"])}</span>')
+    meta.append(f'<span>{icon("calendar")} Desde {time_tag(afeccion.get("fecha_diagnostico", ""))}</span>')
     if afeccion.get("medico"):
         meta.append(f'<span>{icon("user")} {esc(afeccion["medico"])}</span>')
     if afeccion.get("centro"):
         meta.append(f'<span>{icon("building")} {esc(afeccion["centro"])}</span>')
+    title = afeccion.get('titulo') or afeccion.get('nombre') or 'Condición'
+    summary = afeccion.get('resumen') or afeccion.get('descripcion') or afeccion.get('diagnostico') or ''
     return f"""
         <article class="condition-block" id="{esc(afeccion['id'])}">
           <div class="condition-head">
             <div>
-              <h3>{esc(afeccion['titulo'])}</h3>
-              <p class="condition-summary">{esc(afeccion['resumen'] or afeccion['descripcion'])}</p>
+              <h3>{esc(title)}</h3>
+              <p class="condition-summary">{esc(summary)}</p>
             </div>
             {status_badge(afeccion['estado'])}
           </div>
           <div class="condition-meta">{''.join(meta)}</div>
-          {timeline(afeccion['evolucion'], 'Evolución de ' + afeccion['titulo']) if show_timeline else ''}
+          {timeline(afeccion['evolucion'], 'Evolución de ' + title) if show_timeline else ''}
         </article>"""
 
 
@@ -1149,7 +1172,7 @@ def detail_hero(cat: dict, conditions: list[dict], docs: list[dict]) -> str:
 def build_diagnosticos() -> str:
     cat = CATEGORIAS["diagnosticos"]
     cats_conditions = conditions_for("diagnosticos")
-    all_docs = sorted(DOCS, key=lambda doc: doc["fecha"], reverse=True)
+    all_docs = sorted(DOCS, key=lambda doc: str(doc["fecha"] or ""), reverse=True)
     featured_docs = all_docs[:6]
     active = [item for item in AFECCIONES if item["tipo"] == "activa"]
     historical = [item for item in AFECCIONES if item["tipo"] == "historica"]
@@ -1167,13 +1190,13 @@ def build_diagnosticos() -> str:
         rows.append(f"""
           <tr data-states="{','.join(states)}">
             <td data-label="Condición">
-              <span class="cell-title">{esc(item['titulo'])}</span>
-              <span class="cell-muted">{esc(item['descripcion'])}</span>
+              <span class="cell-title">{esc(item.get('nombre') or item.get('titulo'))}</span>
+              <span class="cell-muted">{esc(item.get('diagnostico') or item.get('descripcion') or '')}</span>
             </td>
             <td data-label="CIE-10" class="cell-mono">{esc(item.get('cie10') or '—')}</td>
             <td data-label="Estado">{status_badge(item['estado'])}</td>
             <td data-label="Desde" class="cell-mono">{time_tag(item['fecha_diagnostico'])}</td>
-            <td data-label="Profesional">{esc(item['medico'])}<br><a class="cell-link" href="{esc(item_cat['url'])}">{esc(item_cat['navLabel'])}</a></td>
+            <td data-label="Profesional">{esc(item.get('medico') or 'Por confirmar')}<br><a class="cell-link" href="{esc(item_cat['url'])}">{esc(item_cat['navLabel'])}</a></td>
           </tr>""")
     fact_items = [
         ("Condiciones registradas", f"{len(AFECCIONES)}"),
@@ -1309,11 +1332,11 @@ def build_medicamentos() -> str:
         ("Medicamentos activos", f"{len(active_meds)}"),
         ("Alergias registradas", f"{len(ALERGIAS)}"),
         ("Receta vigente", time_tag(receta_date)),
-        ("Profesional", esc(condition["medico"])),
-        ("Centro", esc(condition["centro"])),
+        ("Profesional", esc(condition.get('medico') or 'Por confirmar')),
+        ("Centro", esc(condition.get('centro') or 'Por confirmar')),
         ("Actualizado", time_tag(cat["actualizado"])),
     ]
-    med_timeline = timeline(condition["evolucion"], "Historial del tratamiento")
+    med_timeline = timeline(condition.get('evolucion', []), "Historial del tratamiento")
     main = f"""
   {detail_hero(cat, [condition], docs)}
   <div class="shell detail">
@@ -1343,8 +1366,8 @@ def build_medicamentos() -> str:
       </section>
 
       {documents_section(docs, "La receta, a mano")}
-      {notes_section(unique(condition['notas'] + CRITICO['notas']), cat['actualizado'], 'Tratamiento y alergias')}
-      {related_section(condition['relacionados'])}
+      {notes_section(unique(list(condition.get('notas', [])) + CRITICO['notas']), cat['actualizado'], 'Tratamiento y alergias')}
+      {related_section(condition.get('relacionados', []))}
       {chapter_nav(cat)}
     </div>
   </div>"""
@@ -1405,7 +1428,8 @@ def allergy_card(allergy: dict) -> str:
 
 def build_laboratorio() -> str:
     cat = CATEGORIAS["laboratorio"]
-    condition = conditions_for("laboratorio")[0]
+    conditions = conditions_for("laboratorio")
+    condition = conditions[0] if conditions else {"medico": "Laboratorio HEC", "evolucion": []}
     docs = docs_for("laboratorio")
     out_of_range = [row for row in LABORATORIO if row["estado"] != "normal"]
     panels: OrderedDict[str, list[dict]] = OrderedDict()
@@ -1418,15 +1442,15 @@ def build_laboratorio() -> str:
         ("Fuera de rango", f"{len(out_of_range)}"),
         ("Muestra", time_tag("2026-01-15")),
         ("Paneles", f"{len(panels)}"),
-        ("Profesional", esc(condition["medico"])),
+        ("Profesional", esc(condition.get("medico", "Laboratorio HEC"))),
         ("Actualizado", time_tag(cat["actualizado"])),
     ]
     main = f"""
-  {detail_hero(cat, [condition], docs)}
+  {detail_hero(cat, conditions, docs)}
   <div class="shell detail">
     {rail([("resumen", "Resumen"), ("resultados", "Resultados"), ("evolucion", "Evolución"), ("documentos", "Documentos"), ("notas", "Notas"), ("relacionado", "Relacionado")])}
     <div class="detail-content">
-      {summary_section(cat=cat, quote=cat["resumen"], facts=fact_items, conditions=[condition], docs=docs, updated=cat["actualizado"])}
+      {summary_section(cat=cat, quote=cat["resumen"], facts=fact_items, conditions=conditions, docs=docs, updated=cat["actualizado"])}
 
       <section class="content-section" id="resultados">
         <p class="section-label">Resultados</p>
@@ -1455,8 +1479,8 @@ def build_laboratorio() -> str:
       </section>
 
       {documents_section(docs, "Los informes, completos")}
-      {notes_section(condition['notas'], cat['actualizado'], 'Lectura de laboratorio')}
-      {related_section(condition['relacionados'])}
+      {notes_section(condition.get('notas', []) or ['Los resultados se interpretan con el informe completo y el control médico.'], cat['actualizado'], 'Lectura de laboratorio')}
+      {related_section(condition.get('relacionados', []))}
       {chapter_nav(cat)}
     </div>
   </div>"""
@@ -1501,11 +1525,11 @@ def lab_panel(name: str, rows: list[dict]) -> str:
 def build_especialidad(cat: dict) -> str:
     conditions = conditions_for(cat["id"])
     docs = docs_for(cat["id"])
-    doctors = unique(item["medico"] for item in conditions)
-    centers = unique(item["centro"] for item in conditions)
+    doctors = unique(item.get("medico", "") for item in conditions if item.get("medico"))
+    centers = unique(item.get("centro", "") for item in conditions if item.get("centro"))
     codes = unique(item.get("cie10") for item in conditions if item.get("cie10"))
-    earliest = min((item["fecha_diagnostico"] for item in conditions), default=cat["actualizado"])
-    latest = max((item["actualizado"] for item in conditions), default=cat["actualizado"])
+    earliest = min((item.get("fecha_diagnostico", cat["actualizado"]) for item in conditions), default=cat["actualizado"])
+    latest = max((item.get("actualizado", cat["actualizado"]) for item in conditions), default=cat["actualizado"])
     fact_items = [
         ("Estado actual", status_badge(cat["estado"])),
         ("Condiciones", f"{len(conditions)}"),
@@ -1517,8 +1541,8 @@ def build_especialidad(cat: dict) -> str:
         ("Documentos", f"{len(docs)}"),
     ]
     conditions_html = "".join(condition_block(item) for item in conditions)
-    notes = unique(note for item in conditions for note in item["notas"])
-    related = unique(item for condition in conditions for item in condition["relacionados"])
+    notes = unique(note for item in conditions for note in item.get("notas", []))
+    related = unique(item for condition in conditions for item in condition.get("relacionados", []))
     related = [item for item in related if item != cat["id"]][:3]
     main = f"""
   {detail_hero(cat, conditions, docs)}
@@ -1551,6 +1575,193 @@ def build_especialidad(cat: dict) -> str:
         main_html=main,
         extra_css=("assets/css/detail.css",),
         print_title=cat["navLabel"],
+    )
+
+
+# ---------------------------------------------------------------------------
+# Expediente — category pages & document sheets
+# ---------------------------------------------------------------------------
+def build_expediente_cat(cat: dict) -> str:
+    """Build category page for expediente group (denuncias, transparencia, etc.)."""
+    docs = docs_for(cat["id"])
+    main = f"""
+  {detail_hero(cat, [], docs)}
+  <div class="shell detail">
+    {rail([("resumen", "Resumen"), ("documentos", "Documentos"), ("relacionado", "Relacionado")])}
+    <div class="detail-content">
+      {summary_section(
+        cat=cat,
+        quote=cat["resumen"],
+        facts=[
+            ("Estado", cat["estado"]),
+            ("Actualizado", time_tag(cat["actualizado"])),
+            ("Documentos", f"{len(docs)}"),
+        ],
+        conditions=[],
+        docs=docs,
+        updated=cat["actualizado"],
+    )}
+
+      <section class="content-section" id="documentos">
+        <p class="section-label">Archivo</p>
+        <div class="content-section__head">
+          <div><h2>Los documentos, <em>ordenados.</em></h2><p>Cada entrada incluye título, fecha, descripción y descarga del PDF original.</p></div>
+          <span class="content-section__count">{icon("folder")} {len(docs)} documento{'s' if len(docs) != 1 else ''}</span>
+        </div>
+        <div class="doc-grid">{''.join(document_card(doc, show_category=False) for doc in docs)}</div>
+        <p class="editorial-note">{icon("info")} <span><strong>Nota:</strong> estos documentos son parte del expediente personal. Se abren en vista previa y conservan su nombre original.</span></p>
+      </section>
+
+      {related_section(cat.get("relacionados", [])[:3])}
+      {chapter_nav(cat)}
+    </div>
+  </div>"""
+    return render_page(
+        slug=cat["slug"],
+        title=f"{cat['metaTitle']} · saludrcartes",
+        description=f"{cat['descripcion']} Archivo personal de {PERFIL['nombre']} con documentos descargables.",
+        accent=cat["acento"],
+        art=cat["arte"],
+        main_html=main,
+        extra_css=("assets/css/detail.css",),
+        print_title=cat["navLabel"],
+    )
+
+
+def build_documentos_page() -> str:
+    """Build the global archive index (documentos.html)."""
+    cat = CATEGORIAS["diagnosticos"]
+    all_docs = sorted(DOCS, key=lambda d: str(d.get("fecha") or ""), reverse=True)
+    cats_expediente = [c for c in CATEGORIAS_ORDER if c["grupo"] == "expediente"]
+    main = f"""
+  <header class="page-hero">
+    <div class="shell page-hero__grid">
+      <div class="page-hero__copy" data-reveal>
+        {breadcrumb(cat)}
+        <p class="eyebrow">{esc(GRUPOS["expediente"]["nombre"])} <span class="eyebrow__badge">03</span></p>
+        <h1 class="display"><span class="line">Archivo <em>completo.</em></span></h1>
+        <p class="lead">{esc(GRUPOS["expediente"]["descripcion"])}</p>
+      </div>
+      <div class="page-hero__art" data-reveal>
+        <img src="{esc(cat["arte"])}" alt="" loading="lazy" width="1600" height="1100">
+      </div>
+    </div>
+  </header>
+
+  <div class="shell detail">
+    {rail([("categorias", "Categorías"), ("archivo", "Archivo completo")])}
+    <div class="detail-content">
+      <section class="content-section" id="categorias">
+        <p class="section-label">Expediente y respaldo</p>
+        <div class="content-section__head">
+          <div><h2>Seis secciones, <em>un expediente.</em></h2></div>
+          <span class="content-section__count">{icon("folder")} {len(cats_expediente)} categorías</span>
+        </div>
+        <div class="chapters-grid">
+          {''.join(chapter_card(c) for c in cats_expediente)}
+        </div>
+      </section>
+
+      <section class="content-section" id="archivo">
+        <p class="section-label">Todos los documentos</p>
+        <div class="content-section__head">
+          <div><h2>El archivo, <em>a mano.</em></h2><p>Ordenados por fecha, del más reciente al más antiguo.</p></div>
+          <span class="content-section__count">{icon("file-text")} {len(all_docs)} documentos</span>
+        </div>
+        <div class="doc-grid">{''.join(document_card(doc, show_category=True) for doc in all_docs)}</div>
+        <p class="editorial-note">{icon("info")} <span><strong>Nota:</strong> estos 57 documentos (más la ficha de emergencia) constituyen el expediente completo extraído del archivo personal.</span></p>
+      </section>
+
+      {chapter_nav(cat)}
+    </div>
+  </div>"""
+    return render_page(
+        slug="documentos",
+        title="Archivo completo · saludrcartes",
+        description=f"Archivo personal completo de {PERFIL['nombre']}: {len(all_docs)} documentos en 6 categorías del expediente.",
+        accent="turquesa",
+        art="assets/img/art/inicio.svg",
+        main_html=main,
+        extra_css=("assets/css/detail.css",),
+        print_title="Archivo completo",
+    )
+
+
+def build_doc_sheet(doc: dict) -> str:
+    """Build individual document detail sheet (doc-<slug>.html)."""
+    cat = CATEGORIAS.get(doc["categoria_id"])
+    group = group_of(cat) if cat else None
+    afeccion = next((a for a in AFECCIONES if a["id"] == doc.get("afeccion_id")), None)
+    transcripcion = doc.get("transcripcion", "")
+    transcripcion_html = f'<div class="transcripcion"><h2>Transcripción completa</h2><p class="transcripcion__note">{icon("info")} Transcripción extraída automáticamente del PDF. Puede contener errores; el documento original es la fuente definitiva.</p><pre>{esc(transcripcion)}</pre></div>' if transcripcion else ""
+    main = f"""
+  <header class="page-hero">
+    <div class="shell page-hero__grid">
+      <div class="page-hero__copy" data-reveal>
+        <nav class="breadcrumb" aria-label="Camino de navegación">
+          <a href="index.html">{icon("home")} Inicio</a>
+          <span class="breadcrumb__sep" aria-hidden="true">/</span>
+          <a href="documentos.html">{icon("folder")} Archivo</a>
+          <span class="breadcrumb__sep" aria-hidden="true">/</span>
+          <span aria-current="page">{esc(doc["nombre"])}</span>
+        </nav>
+        <p class="eyebrow">{esc(group["nombre"] if group else "Expediente")} <span class="eyebrow__badge">{esc(cat["numero"] if cat else "—")}</span></p>
+        <h1 class="display"><span class="line">{esc(doc["nombre"])}</span></h1>
+        <p class="lead">{esc(doc.get("descripcion_larga") or doc.get("descripcion") or "")}</p>
+      </div>
+      <div class="page-hero__art" data-reveal>
+        <img src="{esc(cat["arte"] if cat else "assets/img/art/inicio.svg")}" alt="" loading="lazy" width="1600" height="1100">
+      </div>
+    </div>
+  </header>
+
+  <div class="shell detail">
+    <div class="detail-content">
+      <section class="content-section" id="ficha">
+        <p class="section-label">Ficha del documento</p>
+        <div class="content-section__head">
+          <div><h2>Metadatos, <em>ordenados.</em></h2></div>
+        </div>
+        <div class="fact-grid">
+          <div class="fact-item"><span class="fact-item__label">Categoría</span><span class="fact-item__value">{esc(cat["navLabel"] if cat else "—")}</span></div>
+          <div class="fact-item"><span class="fact-item__label">Fecha</span><span class="fact-item__value">{fecha_long(doc["fecha"])}</span></div>
+          <div class="fact-item"><span class="fact-item__label">Tamaño</span><span class="fact-item__value">{esc(doc["tamano"])}</span></div>
+          <div class="fact-item"><span class="fact-item__label">Archivo</span><span class="fact-item__value">{esc(doc["archivo"])}</span></div>
+          <div class="fact-item"><span class="fact-item__label">Páginas originales</span><span class="fact-item__value">{", ".join(str(p) for p in doc.get("paginas_originales", []))}</span></div>
+          <div class="fact-item"><span class="fact-item__label">Fuente</span><span class="fact-item__value">{esc(doc.get("fuente", "—"))}</span></div>
+          <div class="fact-item"><span class="fact-item__label">Formato</span><span class="fact-item__value">{esc(doc.get("formato", "prosa"))}</span></div>
+          <div class="fact-item"><span class="fact-item__label">Origen transcripción</span><span class="fact-item__value">{esc(doc.get("origen_transcripcion", "texto"))}</span></div>
+        </div>
+      </section>
+
+      <section class="content-section" id="descarga">
+        <p class="section-label">Descarga y vista previa</p>
+        <div class="content-section__head">
+          <div><h2>El original, <em>a mano.</em></h2></div>
+        </div>
+        <div class="doc-preview-card">
+          <iframe class="doc-preview-card__iframe" src="{esc(doc["archivo"])}" title="{esc(doc["nombre"])}" loading="lazy"></iframe>
+          <div class="doc-preview-card__actions">
+            <a class="btn btn--primary" href="{esc(doc["archivo"])}" download>{icon("download")} Descargar PDF original</a>
+            <a class="btn btn--ghost" href="{esc(cat["url"] if cat else "documentos.html")}">{icon("arrow-left")} Volver a {esc(cat["navLabel"] if cat else "Archivo")}</a>
+          </div>
+        </div>
+      </section>
+
+      {transcripcion_html}
+
+      {chapter_nav(cat) if cat else ""}
+    </div>
+  </div>"""
+    return render_page(
+        slug=doc["id"],
+        title=f"{doc['nombre']} · saludrcartes",
+        description=f"{doc.get('descripcion_larga') or doc.get('descripcion') or ''} — Documento del expediente personal de {PERFIL['nombre']}.",
+        accent=cat["acento"] if cat else "turquesa",
+        art=cat["arte"] if cat else "assets/img/art/inicio.svg",
+        main_html=main,
+        extra_css=("assets/css/detail.css", "assets/css/doc-sheet.css"),
+        print_title=doc["nombre"],
     )
 
 
@@ -1771,10 +1982,10 @@ def build_search_index() -> str:
         cat = CATEGORIAS[condition["categoria_id"]]
         category_has_condition_anchor = cat["grupo"] in ("registro", "especialidades") and cat["id"] not in ("medicamentos", "laboratorio")
         items.append({
-            "title": condition["titulo"],
+            "title": condition.get("titulo") or condition.get("nombre"),
             "group": f"Diagnóstico · CIE-10 {condition.get('cie10') or 's/c'}",
-            "description": f"{condition['estado']} · {condition['especialidad']} · {condition['medico']}",
-            "keywords": f"{condition['descripcion']} {condition['especialidad']} {condition['medico']}",
+            "description": f"{condition.get('estado') or 'En seguimiento'} · {condition.get('especialidad') or condition.get('especialidad_id') or 'Por confirmar'} · {condition.get('medico') or 'Por confirmar'}",
+            "keywords": f"{condition.get('descripcion') or condition.get('diagnostico') or ''} {condition.get('especialidad') or condition.get('especialidad_id') or ''} {condition.get('medico') or ''}",
             "url": f"{cat['url']}#{condition['id']}" if category_has_condition_anchor else cat["url"],
             "number": condition.get("cie10") or cat["numero"],
             "featured": False,
@@ -1998,15 +2209,22 @@ def main() -> None:
     for cat in CATEGORIAS_ORDER:
         if cat["grupo"] == "especialidades":
             write(cat["url"], build_especialidad(cat))
+        elif cat["grupo"] == "expediente":
+            write(cat["url"], build_expediente_cat(cat))
     write("emergencia.html", emergency_page())
+    write("documentos.html", build_documentos_page())
     write("404.html", not_found_page())
+    # Write individual document sheets
+    for doc in DOCS_ALL:
+        cat = CATEGORIAS.get(doc["categoria_id"])
+        write(f"doc-{doc.get('slug') or doc['id']}.html", build_doc_sheet(doc))
     write("assets/js/search-index.js", build_search_index())
     write("manifest.webmanifest", build_manifest())
     write("_headers", build_headers())
     write("netlify.toml", build_netlify())
     write("robots.txt", build_robots())
     write("README.md", build_readme())
-    print(f"Done: 13 pages, {total_documents()} documents indexed.")
+    print(f"Done: pages, {total_documents()} documents indexed.")
 
 
 if __name__ == "__main__":
